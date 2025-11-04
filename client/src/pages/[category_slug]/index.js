@@ -43,8 +43,12 @@ export async function getServerSideProps({ params, query, req }) {
   // если это не категория и не обзор — сюда положим нашу страницу
   let customPage = null;
 
-  // 1. пробуем постовую и обзорную категорию (как у тебя было) :contentReference[oaicite:0]{index=0}
-  const [postCategoryResponse, reviewsResponse] = await Promise.all([
+  // 1. загрузим ВСЁ, что нужно, параллельно
+  const [
+    postCategoryResponse,
+    reviewsResponse,
+    generalOptionResponse,
+  ] = await Promise.all([
     axios(`${API_BASE}/api/post-categories`, {
       params: {
         populate: "meta,slug,title,name",
@@ -57,9 +61,24 @@ export async function getServerSideProps({ params, query, req }) {
         "filters[slug][$eq]": slug,
       },
     }),
+    // вот это теперь всегда выполняется
+    axios(`${API_BASE}/api/general-option`, {
+      params: {
+        // можно одной строкой, главное без переносов
+        populate:
+          "review_options.widget_min_deposit_withdrawal,review_options.widget_trading_volume,review_options.widget_verification,review_options.widget_spot_commission,review_options.widget_futures_commission,review_options.company_info_widgets.icon,review_background",
+      },
+    }),
   ]);
 
-  // постовая категория
+  // ----- generalOption -----
+  if (generalOptionResponse.data?.data) {
+    // как у тебя было
+    const payload3 = new GeneralOptionModel(generalOptionResponse.data.data);
+    generalOption = JSON.parse(JSON.stringify(payload3));
+  }
+
+  // ----- постовая категория -----
   if (postCategoryResponse.data?.data?.length) {
     postCategory = JSON.parse(
       JSON.stringify(new PostCategoryModel(postCategoryResponse.data.data[0]))
@@ -80,7 +99,7 @@ export async function getServerSideProps({ params, query, req }) {
     pageCount = postResponse.data.meta?.pagination?.pageCount || 1;
   }
 
-  // категория обзоров
+  // ----- категория обзоров -----
   if (reviewsResponse.data?.data?.length) {
     const payload = new ReviewCategoryModel(reviewsResponse.data.data[0]);
     reviewCategory = JSON.parse(JSON.stringify(payload));
@@ -107,30 +126,9 @@ export async function getServerSideProps({ params, query, req }) {
       pageCount = reviewsResponse2.data.meta?.pagination?.pageCount || 1;
       page = reviewsResponse2.data.meta?.pagination?.page || 1;
     }
-
-    const generalOptionResponse = await axios.get(
-      `${API_BASE}/api/general-option`,
-      {
-        params: {
-          populate: `
-            review_options.widget_min_deposit_withdrawal,
-            review_options.widget_trading_volume,
-            review_options.widget_verification,
-            review_options.widget_spot_commission,
-            review_options.widget_futures_commission,
-            review_options.company_info_widgets.icon,
-            review_background`,
-        },
-      }
-    );
-
-    if (generalOptionResponse.data?.data) {
-      const payload3 = new GeneralOptionModel(generalOptionResponse.data.data);
-      generalOption = JSON.parse(JSON.stringify(payload3));
-    }
   }
 
-  // 2. если не категория и не обзоры — забираем новую страницу по slug
+  // ----- если это вообще не категория -----
   if (!postCategory && !reviewCategory) {
     try {
       const pageRes = await axios(`${API_BASE}/api/pages`, {
@@ -142,7 +140,6 @@ export async function getServerSideProps({ params, query, req }) {
             },
             meta: "*",
           },
-          // ВАЖНО: поле в Strapi называется slug (нижний регистр)
           "filters[slug][$eq]": slug,
         },
       });
@@ -151,7 +148,6 @@ export async function getServerSideProps({ params, query, req }) {
         const item = pageRes.data.data[0];
         const attrs = item.attributes;
 
-        // meta у тебя repeatable — берём первый
         const metaItem =
           Array.isArray(attrs.meta) && attrs.meta.length
             ? attrs.meta[0]
@@ -188,11 +184,12 @@ export async function getServerSideProps({ params, query, req }) {
       posts,
       pageCount,
       page,
-      generalOption,
+      generalOption, // теперь он есть всегда
       customPage,
     },
   };
 }
+
 
 export default function ExchangePage({
   reviewCategory,

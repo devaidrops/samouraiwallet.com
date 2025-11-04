@@ -11,10 +11,6 @@
     },
     "description": {
       "type": "string"
-    },
-    "allow_indexation": {
-      "type": "boolean",
-      "default": true
     }
   }
 }

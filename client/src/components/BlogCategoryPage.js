@@ -28,7 +28,7 @@ export default function BlogCategoryPage({
         }`}</title>
         <meta
           name="robots"
-          content={generalOption.allow_indexation ? robotsTxt : "noindex"}
+          content={generalOption?.allow_indexation ? robotsTxt : "index"}
         />
         <meta
           name="description"
