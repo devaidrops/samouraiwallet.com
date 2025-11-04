@@ -71,19 +71,15 @@ export async function getServerSideProps({ params, query, req }) {
     }),
   ]);
 
-  // ----- generalOption -----
   if (generalOptionResponse.data?.data) {
-    // как у тебя было
     const payload3 = new GeneralOptionModel(generalOptionResponse.data.data);
     generalOption = JSON.parse(JSON.stringify(payload3));
   }
 
-  // ----- постовая категория -----
   if (postCategoryResponse.data?.data?.length) {
-    const rawCategory = postCategoryResponse.data.data[0]; // то, что пришло из Strapi
-    const model = new PostCategoryModel(rawCategory);      // то, что у тебя было
+    const rawCategory = postCategoryResponse.data.data[0];
+    const model = new PostCategoryModel(rawCategory);
 
-    // добавим к тому, что вернула модель, поле description из attributes
     postCategory = JSON.parse(
       JSON.stringify({
         ...model,
@@ -106,7 +102,6 @@ export async function getServerSideProps({ params, query, req }) {
     pageCount = postResponse.data.meta?.pagination?.pageCount || 1;
   }
 
-  // ----- категория обзоров -----
   if (reviewsResponse.data?.data?.length) {
     const payload = new ReviewCategoryModel(reviewsResponse.data.data[0]);
     reviewCategory = JSON.parse(JSON.stringify(payload));
@@ -135,7 +130,6 @@ export async function getServerSideProps({ params, query, req }) {
     }
   }
 
-  // ----- если это вообще не категория -----
   if (!postCategory && !reviewCategory) {
     try {
       const pageRes = await axios(`${API_BASE}/api/pages`, {
@@ -191,7 +185,7 @@ export async function getServerSideProps({ params, query, req }) {
       posts,
       pageCount,
       page,
-      generalOption, // теперь он есть всегда
+      generalOption,
       customPage,
     },
   };

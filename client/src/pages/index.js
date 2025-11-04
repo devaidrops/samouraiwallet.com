@@ -234,6 +234,7 @@ export default function Home({
           </div>
         </div> */}
 
+        {reviews && reviews.length > 0 && (
         <div className="brokers-table sm:overflow-auto max-sm:table">
           <table>
             <thead>
@@ -339,6 +340,7 @@ export default function Home({
             </tbody>
           </table>
         </div>
+        )}
 
         {pageCount > 1 && (
           <Paginator

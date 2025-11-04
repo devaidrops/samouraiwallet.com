@@ -94,6 +94,7 @@ const Sidebar = ({ appId, data, recentReviews }) => {
               </div>
             </div>
           )}
+        {recentReviews && recentReviews.length > 0 && (
         <div className="actual">
           <div className="text-8">
             <img
@@ -123,6 +124,7 @@ const Sidebar = ({ appId, data, recentReviews }) => {
             ))}
           </div>
         </div>
+        )}
         {data?.quiz?.quiz_options?.length > 0 && (
         <div className="quiz">
           <div className="text-13">
