@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_config_review_possible_infos",
+  "info": {
+    "displayName": "Possible Company Info",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "values": {
+      "displayName": "Possible Link Value",
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.possible-link-value"
+    }
+  }
+}

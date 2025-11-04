@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_review_summary_ratings",
+  "info": {
+    "displayName": "Summary Rating",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "rating": {
+      "type": "decimal"
+    },
+    "title": {
+      "type": "string"
+    }
+  }
+}

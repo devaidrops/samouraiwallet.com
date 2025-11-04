@@ -1,0 +1,40 @@
+{
+  "collectionName": "components_review_trigger_values",
+  "info": {
+    "displayName": "Trigger Value",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "widget_min_deposit_withdrawal": {
+      "type": "string"
+    },
+    "widget_trading_volume": {
+      "type": "string"
+    },
+    "widget_verification": {
+      "type": "string"
+    },
+    "widget_spot_commission": {
+      "type": "string"
+    },
+    "widget_futures_commission": {
+      "type": "string"
+    },
+    "widget_min_deposit_withdrawal_label": {
+      "type": "string"
+    },
+    "widget_trading_volume_label": {
+      "type": "string"
+    },
+    "widget_verification_label": {
+      "type": "string"
+    },
+    "widget_spot_commission_label": {
+      "type": "string"
+    },
+    "widget_futures_commission_label": {
+      "type": "string"
+    }
+  }
+}

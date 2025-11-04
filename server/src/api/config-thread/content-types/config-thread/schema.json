@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "config_threads",
+  "info": {
+    "singularName": "config-thread",
+    "pluralName": "config-threads",
+    "displayName": "Config Thread"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "random_avatars": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.image"
+    },
+    "random_names": {
+      "type": "component",
+      "repeatable": true,
+      "component": "shared.label"
+    }
+  }
+}

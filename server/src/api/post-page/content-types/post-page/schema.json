@@ -1,0 +1,25 @@
+{
+  "kind": "singleType",
+  "collectionName": "post_pages",
+  "info": {
+    "singularName": "post-page",
+    "pluralName": "post-pages",
+    "displayName": "Post page",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "interesting_posts_text": {
+      "type": "string"
+    },
+    "see_all_posts_text": {
+      "type": "string"
+    },
+    "see_all_posts_link": {
+      "type": "string"
+    }
+  }
+}

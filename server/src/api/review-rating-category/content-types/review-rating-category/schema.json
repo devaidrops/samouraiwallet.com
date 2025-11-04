@@ -1,0 +1,18 @@
+{
+  "kind": "collectionType",
+  "collectionName": "review_rating_categories",
+  "info": {
+    "singularName": "review-rating-category",
+    "pluralName": "review-rating-categories",
+    "displayName": "Review Rating Category"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "kind": "singleType",
+  "collectionName": "sidebars",
+  "info": {
+    "singularName": "sidebar",
+    "pluralName": "sidebars",
+    "displayName": "Sidebar",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "current_posts": {
+      "displayName": "Current Post",
+      "type": "component",
+      "repeatable": false,
+      "component": "sidebar.current-post"
+    },
+    "current_reviews": {
+      "displayName": "Current Reviews",
+      "type": "component",
+      "repeatable": false,
+      "component": "sidebar.current-reviews"
+    }
+  }
+}

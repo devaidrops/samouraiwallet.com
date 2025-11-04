@@ -1,0 +1,51 @@
+{
+  "collectionName": "components_config_review_possible_trigger_values",
+  "info": {
+    "displayName": "Possible Trigger Values",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "widget_min_deposit_withdrawal_label": {
+      "type": "string"
+    },
+    "widget_min_deposit_withdrawal_values": {
+      "displayName": "Value List",
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.value-list"
+    },
+    "widget_trading_volume_label": {
+      "type": "string"
+    },
+    "widget_trading_volume_values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.value-list"
+    },
+    "widget_verification_label": {
+      "type": "string"
+    },
+    "widget_verification_values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.value-list"
+    },
+    "widget_spot_commission_label": {
+      "type": "string"
+    },
+    "widget_spot_commission_values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.value-list"
+    },
+    "widget_futures_commission_label": {
+      "type": "string"
+    },
+    "widget_futures_commission_values": {
+      "type": "component",
+      "repeatable": true,
+      "component": "config-review.value-list"
+    }
+  }
+}

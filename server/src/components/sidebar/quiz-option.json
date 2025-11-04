@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_sidebar_quiz_options",
+  "info": {
+    "displayName": "Quiz Option",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "option_text": {
+      "type": "string"
+    },
+    "upvotes": {
+      "type": "integer",
+      "default": 0
+    }
+  }
+}
