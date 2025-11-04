@@ -80,8 +80,15 @@ export async function getServerSideProps({ params, query, req }) {
 
   // ----- постовая категория -----
   if (postCategoryResponse.data?.data?.length) {
+    const rawCategory = postCategoryResponse.data.data[0]; // то, что пришло из Strapi
+    const model = new PostCategoryModel(rawCategory);      // то, что у тебя было
+
+    // добавим к тому, что вернула модель, поле description из attributes
     postCategory = JSON.parse(
-      JSON.stringify(new PostCategoryModel(postCategoryResponse.data.data[0]))
+      JSON.stringify({
+        ...model,
+        description: rawCategory.attributes?.description || "",
+      })
     );
 
     const postResponse = await axios(`${API_BASE}/api/posts`, {

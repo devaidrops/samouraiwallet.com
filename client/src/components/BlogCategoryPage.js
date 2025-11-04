@@ -84,7 +84,15 @@ export default function BlogCategoryPage({
               { url: `/${postCategory.slug}`, title: postCategory.name },
             ]}
           />
-          <h1 itemProp="name">{postCategory.title}</h1>
+          <div className="wysiwyg-content">
+            <h1 itemProp="name">{postCategory.title}</h1>
+            {postCategory.description && (
+              <div
+                className="description_category"
+                dangerouslySetInnerHTML={{ __html: postCategory.description }}
+              ></div>
+            )}
+          </div>
         </div>
 
         <div className="articles-index">
