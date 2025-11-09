@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const Footer = ({ menu, copyrightMenu }) => {
+const Footer = ({ menu, copyrightMenu, generalOption }) => {
   return (
     <div className="footer-wrapper">
       <div className="footer-inner">
@@ -9,7 +9,15 @@ const Footer = ({ menu, copyrightMenu }) => {
           <div className="footer-main-menus">
             <div className="left-side">
               <Link href="/" className="logo">
-                Криптотех.ру
+                {generalOption?.site_logo ? (
+                  <img
+                    src={generalOption.site_logo}
+                    alt="Криптотех.ру"
+                    style={{ height: '40px', width: 'auto' }}
+                  />
+                ) : (
+                  'Криптотех.ру'
+                )}
               </Link>
             </div>
 

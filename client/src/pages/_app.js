@@ -26,7 +26,11 @@ export default function App({ Component, pageProps, props }) {
     footerCopyrightMenu,
     sidebar,
     recentReviews,
+    recentPosts,
   } = props;
+  
+  // Получаем generalOption из pageProps, если он есть
+  const generalOption = pageProps?.generalOption || null;
 
   const appId = useMemo(() => {
     if (typeof localStorage !== "undefined") {
@@ -42,7 +46,7 @@ export default function App({ Component, pageProps, props }) {
 
   return (
     <div className={clsx(inter.className, "cryptospace screen site_width")}>
-      <Header menu={headerMenu} />
+      <Header menu={headerMenu} generalOption={generalOption} />
       <div id="app-content" itemScope="" itemType="https://schema.org/WebPage">
         <meta itemProp="inLanguage" content="ru-RU" />
         <meta
@@ -62,10 +66,10 @@ export default function App({ Component, pageProps, props }) {
             <Component {...pageProps} />
           </div>
 
-          <Sidebar appId={appId} data={sidebar} recentReviews={recentReviews} />
+          <Sidebar appId={appId} data={sidebar} recentReviews={recentReviews} recentPosts={recentPosts} />
         </div>
       </div>
-      <Footer menu={footerMenu} copyrightMenu={footerCopyrightMenu} />
+      <Footer menu={footerMenu} copyrightMenu={footerCopyrightMenu} generalOption={generalOption} />
     </div>
   );
 }
@@ -76,6 +80,7 @@ App.getInitialProps = async ({ router }) => {
   let footerCopyrightMenu = { items: { data: [] } };
   let sidebar = null;
   let recentReviews = [];
+  let recentPosts = [];
   const API_BASE = "http://127.0.0.1:1337";
   console.log(
     `${
@@ -133,6 +138,60 @@ App.getInitialProps = async ({ router }) => {
       recentReviews = data.data.data;
     });
 
+  // Загружаем последние посты и страницы
+  let posts = [];
+  let pages = [];
+  
+  // Загружаем посты
+  await axios
+    .get(
+      `${API_BASE}/api/posts`,
+      {
+        params: {
+          nested: true,
+          sort: "publishedAt:desc",
+          pagination: {
+            page: 1,
+            pageSize: 5,
+          },
+          populate: "post_category",
+        },
+      }
+    )
+    .then((data) => {
+      posts = data.data.data || [];
+    })
+    .catch(() => {
+      posts = [];
+    });
+
+  // Загружаем страницы
+  await axios
+    .get(
+      `${API_BASE}/api/pages`,
+      {
+        params: {
+          nested: true,
+          sort: "publishedAt:desc",
+          pagination: {
+            page: 1,
+            pageSize: 5,
+          },
+        },
+      }
+    )
+    .then((data) => {
+      pages = data.data.data || [];
+    })
+    .catch(() => {
+      pages = [];
+    });
+
+  // Объединяем посты и страницы, сортируем по дате и берем 5 последних
+  recentPosts = [...posts, ...pages]
+    .sort((a, b) => new Date(b.attributes.publishedAt) - new Date(a.attributes.publishedAt))
+    .slice(0, 5);
+
   return {
     ...(router.asPath.endsWith(".html")
       ? {}
@@ -148,6 +207,7 @@ App.getInitialProps = async ({ router }) => {
       footerCopyrightMenu,
       sidebar,
       recentReviews,
+      recentPosts,
     },
   };
 };

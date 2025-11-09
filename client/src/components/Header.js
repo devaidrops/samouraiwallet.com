@@ -3,7 +3,7 @@ import clsx from "clsx";
 import Link from "next/link";
 import Image from "next/image";
 
-const Header = ({ menu }) => {
+const Header = ({ menu, generalOption }) => {
   const [searchExpanded, setSearchExpanded] = useState(false);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const [searchKeyValid, setSearchKeyValid] = useState(false);
@@ -38,7 +38,15 @@ const Header = ({ menu }) => {
         />
 
         <Link href="/" className="logo">
-          Криптотех.ру
+          {generalOption?.site_logo ? (
+            <img
+              src={generalOption.site_logo}
+              alt="Криптотех.ру"
+              style={{ height: '40px', width: 'auto' }}
+            />
+          ) : (
+            'Криптотех.ру'
+          )}
         </Link>
 
         <div className="menu-desktop">
@@ -62,8 +70,8 @@ const Header = ({ menu }) => {
               <a href="">
                 <img
                   className="menu-logo"
-                  src="/img/logo-blue.svg"
-                  alt="Crypto Space"
+                  src={generalOption?.site_logo || "/img/logo-blue.svg"}
+                  alt="Криптотех.ру"
                 />
               </a>
 

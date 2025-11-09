@@ -15,6 +15,7 @@ export class GeneralOptionModel {
   bottom_icons;
   review_background;
   allow_indexation;
+  site_logo;
 
   constructor(payload) {
     this.id = payload.id;
@@ -27,6 +28,9 @@ export class GeneralOptionModel {
 
     const mediaURL = payload.attributes.review_background?.data?.attributes?.url;
     this.review_background = mediaURL ? `${baseAPIUrl}${mediaURL}` : '';
+
+    const logoURL = payload.attributes.site_logo?.data?.attributes?.url;
+    this.site_logo = logoURL ? `${baseAPIUrl}${logoURL}` : '';
 
     const avatarURL = payload.attributes.author?.data?.attributes?.avatar?.data?.attributes?.url;
     this.author = {

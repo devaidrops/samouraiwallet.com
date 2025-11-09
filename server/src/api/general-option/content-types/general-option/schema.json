@@ -59,6 +59,14 @@
       "type": "boolean",
       "default": false,
       "required": true
+    },
+    "site_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
     }
   }
 }

@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import axios from "axios";
 
-const Sidebar = ({ appId, data, recentReviews }) => {
+const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
   const [quizOptions, setQuizOptions] = useState([]);
   const [quizSelected, setQuizSelected] = useState(0);
   const [selectedQuizId, setSelectedQuizId] = useState();
@@ -94,7 +94,7 @@ const Sidebar = ({ appId, data, recentReviews }) => {
               </div>
             </div>
           )}
-        {recentReviews && recentReviews.length > 0 && (
+        {recentPosts && recentPosts.length > 0 && data.current_posts_heading_img && data.current_posts_title && (
         <div className="actual">
           <div className="text-8">
             <img
@@ -107,21 +107,29 @@ const Sidebar = ({ appId, data, recentReviews }) => {
             </div>
           </div>
           <div className="content">
-            {recentReviews.map((review) => (
-              <article key={review.id} className="desk-actual">
-                <div className="text-9">
-                  <p className="text-4 laptop-desktoptext-l-16-med">
-                    <Link
-                      href={`/${review.attributes.review_category.data.attributes.slug}/${review.attributes.slug}`}
-                      className="text-url"
-                      rel="nofollow"
-                    >
-                      {review.attributes.title}
-                    </Link>
-                  </p>
-                </div>
-              </article>
-            ))}
+            {recentPosts.map((item) => {
+              // Определяем тип контента и формируем правильную ссылку
+              const isPost = item.attributes.post_category?.data;
+              const href = isPost
+                ? `/${item.attributes.post_category.data.attributes.slug}/${item.attributes.slug}`
+                : `/${item.attributes.slug}`; // Для страниц используем прямой slug
+              
+              return (
+                <article key={item.id} className="desk-actual">
+                  <div className="text-9">
+                    <p className="text-4 laptop-desktoptext-l-16-med">
+                      <Link
+                        href={href}
+                        className="text-url"
+                        rel="nofollow"
+                      >
+                        {item.attributes.title}
+                      </Link>
+                    </p>
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </div>
         )}

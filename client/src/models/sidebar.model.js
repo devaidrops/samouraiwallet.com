@@ -10,7 +10,7 @@ export class SidebarModel {
   current_reviews = [];
   current_reviews_title = "";
   current_reviews_heading_img = "";
-  quiz = [];
+  quiz = null;
   publishedAt;
   updatedAt;
   createdAt;

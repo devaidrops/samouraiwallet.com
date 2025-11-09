@@ -35,7 +35,8 @@ const API_BASE = "http://127.0.0.1:1337";
       review_options.widget_verification,
       review_options.widget_spot_commission,
       review_options.widget_futures_commission,
-      review_background`,
+      review_background,
+      site_logo`,
       },
     }
   );
@@ -165,7 +166,7 @@ export default function Home({
           }`}
         />
         <link rel="canonical" href={baseClientUrl} />
-        <link rel="icon" href="/favicon.ico" />
+        {/* Favicon уже добавлен в _document.js */}
         {/* Yandex.Metrika counter */}
         <script type="text/javascript">
           {`
@@ -416,12 +417,14 @@ export default function Home({
                     dangerouslySetInnerHTML={{ __html: homepage.content }}
                   ></div>
                 </div>
-                <Link
-                  href={homepage.portfolio_button_link}
-                  className="wide-btn"
-                >
-                  <span>{homepage.portfolio_button_label}</span>
-                </Link>
+                {homepage.portfolio_button_link && homepage.portfolio_button_label && (
+                  <Link
+                    href={homepage.portfolio_button_link}
+                    className="wide-btn"
+                  >
+                    <span>{homepage.portfolio_button_label}</span>
+                  </Link>
+                )}
               </div>
             </div>
           </div>

@@ -150,7 +150,8 @@ export async function getServerSideProps({ params, req }) {
         review_options.widget_verification.icon,
         review_options.widget_spot_commission.icon,
         review_options.widget_futures_commission.icon,
-        review_options.company_info_widgets.icon
+        review_options.company_info_widgets.icon,
+        site_logo
       `,
     },
   });
