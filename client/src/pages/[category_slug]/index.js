@@ -66,7 +66,7 @@ export async function getServerSideProps({ params, query, req }) {
       params: {
         // можно одной строкой, главное без переносов
         populate:
-          "review_options.widget_min_deposit_withdrawal,review_options.widget_trading_volume,review_options.widget_verification,review_options.widget_spot_commission,review_options.widget_futures_commission,review_options.company_info_widgets.icon,review_background",
+          "review_options.widget_min_deposit_withdrawal,review_options.widget_trading_volume,review_options.widget_verification,review_options.widget_spot_commission,review_options.widget_futures_commission,review_options.company_info_widgets.icon,review_background,site_logo",
       },
     }),
   ]);

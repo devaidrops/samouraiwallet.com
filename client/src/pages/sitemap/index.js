@@ -22,7 +22,8 @@ const API_BASE = "http://127.0.0.1:1337";
       review_options.widget_verification,
       review_options.widget_spot_commission,
       review_options.widget_futures_commission,
-      review_background`,
+      review_background,
+      site_logo`,
       },
     }
   );
@@ -90,7 +91,6 @@ export default function SitemapPage({ links, pageCount, page, generalOption }) {
             process.env.NEXT_PUBLIC_APP_URL || "http://127.0.0.1:3000"
           }/sitemap/`}
         />
-        <link rel="icon" href="/favicon.ico" />
         {/* Yandex.Metrika counter */}
         <script type="text/javascript">
           {`
