@@ -1187,6 +1187,7 @@ export interface ApiGeneralOptionGeneralOption extends Schema.SingleType {
     allow_indexation: Attribute.Boolean &
       Attribute.Required &
       Attribute.DefaultTo<false>;
+    site_logo: Attribute.Media<'images'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1374,6 +1375,7 @@ export interface ApiPostPost extends Schema.CollectionType {
           enabled: true;
         };
       }>;
+    coinGeckoId: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1410,6 +1412,13 @@ export interface ApiPostCategoryPostCategory extends Schema.CollectionType {
       'manyToMany',
       'api::thread.thread'
     >;
+    description: Attribute.RichText &
+      Attribute.CustomField<
+        'plugin::ckeditor5video.CKEditor5Video',
+        {
+          preset: 'custom';
+        }
+      >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -1672,6 +1681,7 @@ export interface ApiSidebarSidebar extends Schema.SingleType {
   attributes: {
     current_posts: Attribute.Component<'sidebar.current-post'>;
     current_reviews: Attribute.Component<'sidebar.current-reviews'>;
+    quiz: Attribute.Component<'sidebar.quiz'>;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;

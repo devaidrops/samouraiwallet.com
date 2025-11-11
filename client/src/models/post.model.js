@@ -20,6 +20,7 @@ export class PostModel {
   allow_thread;
   threaded_comment;
   random_avatar_name_pair;
+  coinGeckoId;
 
   constructor(payload) {
     this.id = payload.id;
@@ -34,6 +35,8 @@ export class PostModel {
     this.allow_thread = payload.attributes.allow_thread;
     this.threaded_comment = payload.attributes.threaded_comment;
     this.random_avatar_name_pair = payload.attributes.random_avatar_name_pair;
+    this.coinGeckoId =
+      payload.attributes.coinGeckoId ?? payload.attributes.coin_gecko_id ?? null;
 
     if (payload.attributes.post_category?.data) {
       this.post_category = new PostCategoryModel(
