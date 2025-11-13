@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { useMemo } from "react";
+import { getPostUrl } from "@/utils/getPostUrl";
 
 const SearchResult = ({ posts, reviews, searchKey, searchPage }) => {
   const totalSearchResults = posts.length + reviews.length;
@@ -27,7 +28,7 @@ const SearchResult = ({ posts, reviews, searchKey, searchPage }) => {
                 <ul>
                   {posts.map((post) => (
                     <li key={post.id}>
-                      <Link href={`/${post.post_category.slug}/${post.slug}`}>{post.title}</Link>
+                      <Link href={getPostUrl(post)}>{post.title}</Link>
                     </li>
                   ))}
                 </ul>

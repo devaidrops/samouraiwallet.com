@@ -9,6 +9,7 @@ import CommentBlock from "@/components/CommentBlock";
 import Link from "next/link";
 import NotFoundPage from "@/components/NotFoundPage";
 import { CommentModel } from "@/models/comment.model";
+import { getPostUrl } from "@/utils/getPostUrl";
 
 export default function BlogPostPage({
   post,
@@ -199,7 +200,7 @@ export default function BlogPostPage({
         <meta name="author" content="Команда Crypto Space" />
         <link
           rel="canonical"
-          href={`${baseClientUrl}/${post.post_category.slug}/${post.slug}/`}
+          href={`${baseClientUrl}${getPostUrl(post)}/`}
         />
         <link rel="icon" href="/favicon.ico" />
         {/* Yandex.Metrika counter */}
@@ -252,7 +253,7 @@ export default function BlogPostPage({
               { url: "/", title: "Главная" },
               { url: `/${post.post_category.slug}`, title: "Статьи" },
               {
-                url: `/${post.post_category.slug}/${post.slug}`,
+                url: getPostUrl(post),
                 title: post.title,
               },
             ]}
@@ -393,7 +394,7 @@ export default function BlogPostPage({
                 {interestingPosts.map((post) => (
                   <a
                     key={post.id}
-                    href={`/${post.post_category.slug}/${post.slug}`}
+                    href={getPostUrl(post)}
                     className="article-block"
                   >
                     <div

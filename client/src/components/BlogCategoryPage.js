@@ -5,6 +5,7 @@ import Breadcrumbs from "@/components/Breadcrumbs";
 import { baseClientUrl, robotsTxt } from "@/constants/constants";
 import Paginator from "@/components/Paginator";
 import NotFoundPage from "@/components/NotFoundPage";
+import { getPostUrl } from "@/utils/getPostUrl";
 
 export default function BlogCategoryPage({
   postCategory,
@@ -100,7 +101,7 @@ export default function BlogCategoryPage({
             {posts.map((post) => (
               <Link
                 key={post.id}
-                href={`/${post.post_category.slug}/${post.slug}`}
+                href={getPostUrl(post)}
                 className="article-block"
               >
                 <div

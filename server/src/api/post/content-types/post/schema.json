@@ -86,6 +86,9 @@
     },
     "coinGeckoId": {
       "type": "string"
+    },
+    "ticker": {
+      "type": "string"
     }
   }
 }
