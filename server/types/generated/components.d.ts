@@ -58,6 +58,48 @@ export interface SidebarCurrentPost extends Schema.Component {
   };
 }
 
+export interface SharedRatingLabel extends Schema.Component {
+  collectionName: 'components_shared_rating_labels';
+  info: {
+    displayName: 'Rating Label';
+  };
+  attributes: {
+    label: Attribute.String;
+  };
+}
+
+export interface SharedMeta extends Schema.Component {
+  collectionName: 'components_shared_metas';
+  info: {
+    displayName: 'Meta';
+    description: '';
+  };
+  attributes: {
+    title: Attribute.String;
+    description: Attribute.String;
+  };
+}
+
+export interface SharedLabel extends Schema.Component {
+  collectionName: 'components_shared_labels';
+  info: {
+    displayName: '\u0422\u0435\u043A\u0441\u0442';
+  };
+  attributes: {
+    value: Attribute.String;
+  };
+}
+
+export interface SharedImage extends Schema.Component {
+  collectionName: 'components_shared_images';
+  info: {
+    displayName: '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435';
+  };
+  attributes: {
+    value: Attribute.Media<'images'>;
+  };
+}
+
 export interface ReviewTriggerWidget extends Schema.Component {
   collectionName: 'components_review_trigger_widgets';
   info: {
@@ -152,48 +194,6 @@ export interface ReviewCompanyInfo extends Schema.Component {
     value: Attribute.String;
     link: Attribute.String;
     title: Attribute.String;
-  };
-}
-
-export interface SharedRatingLabel extends Schema.Component {
-  collectionName: 'components_shared_rating_labels';
-  info: {
-    displayName: 'Rating Label';
-  };
-  attributes: {
-    label: Attribute.String;
-  };
-}
-
-export interface SharedMeta extends Schema.Component {
-  collectionName: 'components_shared_metas';
-  info: {
-    displayName: 'Meta';
-    description: '';
-  };
-  attributes: {
-    title: Attribute.String;
-    description: Attribute.String;
-  };
-}
-
-export interface SharedLabel extends Schema.Component {
-  collectionName: 'components_shared_labels';
-  info: {
-    displayName: '\u0422\u0435\u043A\u0441\u0442';
-  };
-  attributes: {
-    value: Attribute.String;
-  };
-}
-
-export interface SharedImage extends Schema.Component {
-  collectionName: 'components_shared_images';
-  info: {
-    displayName: '\u0418\u0437\u043E\u0431\u0440\u0430\u0436\u0435\u043D\u0438\u0435';
-  };
-  attributes: {
-    value: Attribute.Media<'images'>;
   };
 }
 
@@ -298,6 +298,10 @@ declare module '@strapi/types' {
       'sidebar.quiz-option': SidebarQuizOption;
       'sidebar.current-reviews': SidebarCurrentReviews;
       'sidebar.current-post': SidebarCurrentPost;
+      'shared.rating-label': SharedRatingLabel;
+      'shared.meta': SharedMeta;
+      'shared.label': SharedLabel;
+      'shared.image': SharedImage;
       'review.trigger-widget': ReviewTriggerWidget;
       'review.trigger-value': ReviewTriggerValue;
       'review.summary-rating': ReviewSummaryRating;
@@ -305,10 +309,6 @@ declare module '@strapi/types' {
       'review.pros-cons': ReviewProsCons;
       'review.content-menu': ReviewContentMenu;
       'review.company-info': ReviewCompanyInfo;
-      'shared.rating-label': SharedRatingLabel;
-      'shared.meta': SharedMeta;
-      'shared.label': SharedLabel;
-      'shared.image': SharedImage;
       'homepage.desk-card': HomepageDeskCard;
       'config-review.value-list': ConfigReviewValueList;
       'config-review.possible-trigger-values': ConfigReviewPossibleTriggerValues;
