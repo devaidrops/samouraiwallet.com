@@ -1,0 +1,12 @@
+node_modules/
+.cache/
+build/
+dist/
+uploads/
+public/
+logs/
+tmp/
+backup/
+*.log
+.DS_Store
+*.zip

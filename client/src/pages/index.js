@@ -11,6 +11,7 @@ import { PostModel } from "@/models/post.model";
 import { ReviewModel } from "@/models/review.model";
 import NotFoundPage from "@/components/NotFoundPage";
 import Ratings from "@/components/Ratings";
+import { getPostUrl } from "@/utils/getPostUrl";
 
 export async function getServerSideProps({ query }) {
   let homepage = null;
@@ -376,7 +377,7 @@ export default function Home({
                   .map((post) => (
                     <Link
                       key={post.id}
-                      href={`/${post.post_category.slug}/${post.slug}`}
+                      href={getPostUrl(post)}
                       className="article-block"
                     >
                       <div

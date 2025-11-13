@@ -10,15 +10,101 @@ import { PostPageModel } from "@/models/post-page.model";
 export async function getServerSideProps({ params, req }) {
   let review = null;
   let generalOption = null;
-
   let post = null;
   let interestingPosts = [];
   let postPage = null;
 
-  const timestamp = Date.now(); // уникальный параметр для обхода кэша
-  
-  console.log('API ENDPOINT:', process.env.NEXT_PUBLIC_API_ENDPOINT);
   const API_BASE = "http://127.0.0.1:1337";
+
+  // Определяем, какой формат URL используется:
+  // params.params = [slug] -> /category/slug (без ticker)
+  // params.params = [ticker, slug] -> /category/ticker/slug (с ticker)
+
+  const urlParams = params.params || [];
+  let ticker = null;
+  let slug = null;
+
+  if (urlParams.length === 1) {
+    // Формат: /category/slug
+    slug = urlParams[0];
+  } else if (urlParams.length === 2) {
+    // Формат: /category/ticker/slug
+    ticker = urlParams[0];
+    slug = urlParams[1];
+  } else {
+    // Неверный формат URL
+    return {
+      props: {
+        review: null,
+        post: null,
+        postPage: null,
+        interestingPosts: [],
+        generalOption: null,
+        host: req.headers.host,
+      },
+    };
+  }
+
+  // ВАЖНО: Сначала проверяем, нужен ли редирект
+  // Если это формат /category/slug (без ticker), проверим есть ли у поста ticker
+  if (urlParams.length === 1) {
+    // Делаем быстрый запрос чтобы узнать, есть ли ticker у этого поста
+    try {
+      const checkPostResponse = await axios(
+        `${API_BASE}/api/posts`,
+        {
+          params: {
+            fields: ['slug', 'ticker'],
+            populate: 'post_category',
+            "filters[slug][$eq]": slug,
+            "filters[post_category][slug][$eq]": params.category_slug,
+          },
+        }
+      );
+
+      if (checkPostResponse.data?.data?.length) {
+        const postData = checkPostResponse.data.data[0];
+        const postTicker = postData.attributes?.ticker;
+
+        // Если у поста есть ticker, делаем 301 редирект на /calculator/ticker/slug
+        if (postTicker) {
+          return {
+            redirect: {
+              destination: `/calculator/${postTicker}/${slug}`,
+              permanent: true, // 301 редирект
+            },
+          };
+        }
+      }
+    } catch (error) {
+      console.error('Error checking post ticker:', error);
+    }
+  }
+
+  // Если это формат /category/ticker/slug, но category НЕ "calculator"
+  // и у поста есть ticker - редиректим на /calculator/ticker/slug
+  if (urlParams.length === 2 && params.category_slug !== 'calculator') {
+    return {
+      redirect: {
+        destination: `/calculator/${ticker}/${slug}`,
+        permanent: true, // 301 редирект
+      },
+    };
+  }
+
+  // Строим фильтры для запроса
+  const postFilters = {
+    "filters[slug][$eq]": slug,
+  };
+
+  // Если есть ticker, добавляем его в фильтр и НЕ фильтруем по категории
+  // потому что посты с ticker могут быть в любой категории
+  if (ticker) {
+    postFilters["filters[ticker][$eq]"] = ticker;
+  } else {
+    // Если ticker нет, фильтруем по реальной категории
+    postFilters["filters[post_category][slug][$eq]"] = params.category_slug;
+  }
 
   const [postResponse, reviewResponse] = await Promise.all([
     axios(
@@ -38,8 +124,7 @@ export async function getServerSideProps({ params, req }) {
               sort: "analogue_date:desc,commented_at:desc",
             },
           },
-          "filters[slug][$eq]": params.slug,
-          "filters[post_category][slug][$eq]": params.category_slug,
+          ...postFilters,
         },
       }
     ),
@@ -65,7 +150,7 @@ export async function getServerSideProps({ params, req }) {
               sort: "analogue_date:desc,commented_at:desc",
             },
           },
-          "filters[slug][$eq]": params.slug,
+          "filters[slug][$eq]": slug,
           "filters[review_category][slug][$eq]": params.category_slug
         },
       }
@@ -79,7 +164,7 @@ export async function getServerSideProps({ params, req }) {
     if (post) {
       const requestParams = {
         populate: "media,post_category",
-        "filters[slug][$ne]": params.slug,
+        "filters[slug][$ne]": slug,
         "pagination[pageSize]": 3,
       };
       const [postPageResponse, gteResponse, lteResponse] = await Promise.all([
@@ -173,7 +258,7 @@ export async function getServerSideProps({ params, req }) {
   };
 }
 
-export default function ExchangeReviewPage({
+export default function DynamicPostPage({
   review,
   post,
   postPage,
@@ -186,8 +271,6 @@ export default function ExchangeReviewPage({
     post?.attributes?.coinGeckoId ??
     post?.data?.attributes?.coinGeckoId ??
     null;
-
-  console.log("coinGeckoId:", coinGeckoId);
 
   if (!review && !post) {
     return <NotFoundPage />;
@@ -208,3 +291,4 @@ export default function ExchangeReviewPage({
     />
   );
 }
+
