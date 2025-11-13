@@ -90,27 +90,31 @@ module.exports = {
       const summaryCategories = await strapi
         .query("api::review-rating-category.review-rating-category")
         .findMany();
-      const result = await strapi.query("review.summary-rating").createMany({
-        data: summaryCategories.map((category) => ({
-          title: category.label,
-          rating: +(Math.random() * 5).toFixed(1),
-        })),
-      });
-      event.params.data.summary = result.ids.map((id) => ({
-        id,
-        __pivot: { field: "summary", component_type: "review.summary-rating" },
-      }));
+      if (summaryCategories?.length > 0) {
+        const result = await strapi.query("review.summary-rating").createMany({
+          data: summaryCategories.map((category) => ({
+            title: category.label,
+            rating: +(Math.random() * 5).toFixed(1),
+          })),
+        });
+        event.params.data.summary = result.ids.map((id) => ({
+          id,
+          __pivot: { field: "summary", component_type: "review.summary-rating" },
+        }));
+      }
     }
 
     if (!event.params.data.review_categories?.connect?.length) {
-      event.params.data.review_category = getRandomElement(
-        configReview.review_categories.map((category) => category.id)
-      );
-      if (!event.params.data.review_categories) {
-        event.params.data.review_categories = {};
+      if (configReview.review_categories?.length > 0) {
+        event.params.data.review_category = getRandomElement(
+          configReview.review_categories.map((category) => category.id)
+        );
+        if (!event.params.data.review_categories) {
+          event.params.data.review_categories = {};
+        }
+        event.params.data.review_categories.connect =
+          configReview.review_categories.map((category) => category.id);
       }
-      event.params.data.review_categories.connect =
-        configReview.review_categories.map((category) => category.id);
     }
 
     const possibleTriggerValues = configReview.possible_trigger_values;
@@ -156,11 +160,11 @@ module.exports = {
     }
 
     const possibleCompanyInfo = configReview.possible_company_info;
-    if (!event.params.data?.company_info?.length) {
+    if (!event.params.data?.company_info?.length && possibleCompanyInfo?.length > 0) {
       const result = await strapi.query("review.company-info").createMany({
         data: possibleCompanyInfo.map((item) => {
           const values = item.values || [];
-          const value = values.at(Math.floor(Math.random(values.length)));
+          const value = values.at(Math.floor(Math.random() * values.length));
           return { title: item.label, value: value?.value, link: value?.link };
         }),
       });
