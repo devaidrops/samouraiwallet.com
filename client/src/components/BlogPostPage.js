@@ -251,7 +251,10 @@ export default function BlogPostPage({
           <Breadcrumbs
             items={[
               { url: "/", title: "Главная" },
-              { url: `/${post.post_category.slug}`, title: "Статьи" },
+              {
+                url: `/${post.post_category.slug}`,
+                title: post.post_category?.name || post.post_category?.title || "Статьи"
+              },
               {
                 url: getPostUrl(post),
                 title: post.title,

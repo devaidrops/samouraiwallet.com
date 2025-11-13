@@ -1,0 +1,60 @@
+User-agent: Googlebot
+Allow: /
+
+Allow: *.js
+Allow: *.css
+Allow: *.jpg
+Allow: *.png
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.pdf
+Allow: *.webp
+
+Disallow: /admin/
+Disallow: /content-manager/
+Disallow: /_next/
+Disallow: /static/
+
+Disallow: /api/
+
+User-agent: Yandexbot
+Allow: /
+
+Allow: *.js
+Allow: *.css
+Allow: *.jpg
+Allow: *.png
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.pdf
+Allow: *.webp
+
+Disallow: /admin/
+Disallow: /content-manager/
+Disallow: /_next/
+Disallow: /static/
+Disallow: /api/
+
+# остальные роботы
+User-agent: *
+Allow: /
+
+Allow: *.js
+Allow: *.css
+Allow: *.jpg
+Allow: *.png
+Allow: *.jpeg
+Allow: *.gif
+Allow: *.svg
+Allow: *.pdf
+Allow: *.webp
+
+Disallow: /admin/
+Disallow: /content-manager/
+Disallow: /_next/
+Disallow: /static/
+Disallow: /api/
+
+Host: https://cryptoteh.ru/
