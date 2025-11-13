@@ -181,6 +181,14 @@ export default function ExchangeReviewPage({
   generalOption,
   host,
 }) {
+  const coinGeckoId =
+    post?.coinGeckoId ??
+    post?.attributes?.coinGeckoId ??
+    post?.data?.attributes?.coinGeckoId ??
+    null;
+
+  console.log("coinGeckoId:", coinGeckoId);
+
   if (!review && !post) {
     return <NotFoundPage />;
   }
@@ -196,6 +204,7 @@ export default function ExchangeReviewPage({
       interestingPosts={interestingPosts}
       generalOption={generalOption}
       postPage={postPage}
+      coinGeckoId={coinGeckoId}
     />
   );
 }

@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "strapi",
-      cwd: "/srv/cryptoteh/server",
+      cwd: "/srv/coingecko/server",
       script: "npm",
       args: "run start",
       env: {
@@ -13,7 +13,7 @@ module.exports = {
     },
     {
       name: "api",
-      cwd: "/srv/cryptoteh/api",
+      cwd: "/srv/coingecko/api",
       script: "npm",
       args: "run start",
       env: {
@@ -24,7 +24,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      cwd: "/srv/cryptoteh/client",
+      cwd: "/srv/coingecko/client",
       script: "npm",
       args: "run start",   // next start
       env: {

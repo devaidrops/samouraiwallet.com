@@ -1,6 +1,7 @@
 import axios from "axios";
 import Head from "next/head";
 import Breadcrumbs from "@/components/Breadcrumbs";
+import CoinPriceWidget from "@/components/CoinPriceWidget.jsx";
 import { baseClientUrl, robotsTxt } from "@/constants/constants";
 import { Fragment, useEffect, useRef, useState } from "react";
 import clsx from "clsx";
@@ -14,7 +15,17 @@ export default function BlogPostPage({
   interestingPosts,
   generalOption,
   postPage,
+  coinGeckoId,
 }) {
+  const cgId =
+    coinGeckoId ??
+    post?.coinGeckoId ??
+    post?.attributes?.coinGeckoId ??
+    post?.data?.attributes?.coinGeckoId ??
+    null;
+
+  console.log("coinGeckoId:", cgId);
+
   const [currentStars, setCurrentStars] = useState(generalOption.stars || 0);
   const [currentUpVote, setCurrentUpVote] = useState(generalOption.upvote || 0);
   const [currentDownVote, setCurrentDownVote] = useState(
@@ -247,6 +258,15 @@ export default function BlogPostPage({
             ]}
           />
           <h1 itemProp="name">{post.title}</h1>
+          {cgId && (
+            <CoinPriceWidget
+              coinGeckoId={cgId}
+              apiBase={
+                process.env.NEXT_PUBLIC_API_ENDPOINT ||
+                "http://127.0.0.1:1337"
+              }
+            />
+          )}
         </div>
 
         <div

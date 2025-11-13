@@ -5,6 +5,9 @@ const nextConfig = {
   trailingSlash: true,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
+  experimental: {
+    externalDir: true,
+  },
   images: {
     remotePatterns: [
       {

@@ -371,20 +371,22 @@ export default function Home({
             </div>
             <div className="articles-index">
               <div className="articles-list">
-                {posts.map((post) => (
-                  <Link
-                    key={post.id}
-                    href={`/${post.post_category.slug}/${post.slug}`}
-                    className="article-block"
-                  >
-                    <div
-                      className="article-block-inner"
-                      style={{ backgroundImage: `url(${post.media})` }}
+                {posts
+                  .filter((post) => post?.post_category?.slug && post?.slug)
+                  .map((post) => (
+                    <Link
+                      key={post.id}
+                      href={`/${post.post_category.slug}/${post.slug}`}
+                      className="article-block"
                     >
-                      <div className="article-block-title">{post.title}</div>
-                    </div>
-                  </Link>
-                ))}
+                      <div
+                        className="article-block-inner"
+                        style={{ backgroundImage: `url(${post.media})` }}
+                      >
+                        <div className="article-block-title">{post.title}</div>
+                      </div>
+                    </Link>
+                  ))}
               </div>
 
               {pageCount > 1 && (
