@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_config_review_possible_link_values",
+  "info": {
+    "displayName": "Possible Link Value"
+  },
+  "options": {},
+  "attributes": {
+    "value": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

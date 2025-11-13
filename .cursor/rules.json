@@ -1,0 +1,20 @@
+{
+    "permissions": {
+      "allow": [
+        "src/**",
+        "config/**",
+        "api/**",
+        "*.js",
+        "*.json"
+      ],
+      "deny": [
+        "node_modules/**",
+        "build/**",
+        "dist/**",
+        "uploads/**",
+        "public/**",
+        "tmp/**",
+        "logs/**"
+      ]
+    }
+  }

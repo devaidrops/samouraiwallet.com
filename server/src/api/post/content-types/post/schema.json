@@ -1,0 +1,88 @@
+{
+  "kind": "collectionType",
+  "collectionName": "posts",
+  "info": {
+    "singularName": "post",
+    "pluralName": "posts",
+    "displayName": "Post",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "media": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "slug": {
+      "type": "string"
+    },
+    "meta": {
+      "displayName": "Meta",
+      "type": "component",
+      "repeatable": false,
+      "component": "shared.meta"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "posts"
+    },
+    "comments": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comment.comment",
+      "mappedBy": "post"
+    },
+    "post_content": {
+      "type": "customField",
+      "options": {
+        "preset": "custom"
+      },
+      "customField": "plugin::ckeditor5video.CKEditor5Video"
+    },
+    "post_category": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::post-category.post-category",
+      "inversedBy": "posts"
+    },
+    "allow_thread": {
+      "type": "boolean",
+      "default": true,
+      "required": false
+    },
+    "threaded_comment": {
+      "type": "string",
+      "pluginOptions": {
+        "all-featured-parent-comment": {
+          "enabled": true
+        }
+      }
+    },
+    "random_avatar_name_pair": {
+      "type": "text",
+      "pluginOptions": {
+        "avatar-name-pairs-monitor": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}

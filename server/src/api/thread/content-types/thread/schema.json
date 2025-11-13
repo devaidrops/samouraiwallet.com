@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "threads",
+  "info": {
+    "singularName": "thread",
+    "pluralName": "threads",
+    "displayName": "Thread",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "post_categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::post-category.post-category",
+      "inversedBy": "threads"
+    },
+    "review_categories": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::review-category.review-category",
+      "mappedBy": "threads"
+    },
+    "comments": {
+      "type": "text",
+      "required": true,
+      "pluginOptions": {
+        "all-featured-parent-comments": {
+          "enabled": true
+        }
+      }
+    }
+  }
+}

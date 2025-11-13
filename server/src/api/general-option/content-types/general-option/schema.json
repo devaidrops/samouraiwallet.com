@@ -1,0 +1,72 @@
+{
+  "kind": "singleType",
+  "collectionName": "general_options",
+  "info": {
+    "singularName": "general-option",
+    "pluralName": "general-options",
+    "displayName": "General Option",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "author": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::author.author"
+    },
+    "upvote": {
+      "type": "integer"
+    },
+    "downvote": {
+      "type": "integer"
+    },
+    "stars": {
+      "type": "integer"
+    },
+    "review_options": {
+      "displayName": "Review Options",
+      "type": "component",
+      "repeatable": false,
+      "component": "review.review-options"
+    },
+    "bottom_icons": {
+      "displayName": "Link With Icon",
+      "type": "component",
+      "repeatable": true,
+      "component": "bottom-toolbar.link-with-icon"
+    },
+    "review_comments_title": {
+      "type": "string"
+    },
+    "review_social_button_text": {
+      "type": "string"
+    },
+    "review_background": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "allow_indexation": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "site_logo": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images"
+      ]
+    }
+  }
+}

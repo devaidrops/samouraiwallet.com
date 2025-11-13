@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sidebar_quizzes",
+  "info": {
+    "displayName": "Quiz",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "question": {
+      "type": "string"
+    },
+    "quiz_options": {
+      "displayName": "Quiz Option",
+      "type": "component",
+      "repeatable": true,
+      "component": "sidebar.quiz-option"
+    }
+  }
+}

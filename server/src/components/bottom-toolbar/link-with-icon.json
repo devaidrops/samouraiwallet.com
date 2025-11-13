@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_bottom_toolbar_link_with_icons",
+  "info": {
+    "displayName": "Link With Icon",
+    "description": ""
+  },
+  "options": {},
+  "attributes": {
+    "icon": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "label": {
+      "type": "string"
+    }
+  }
+}
