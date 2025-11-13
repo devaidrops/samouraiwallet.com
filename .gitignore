@@ -39,7 +39,6 @@ out/
 /client/.vercel/
 /client/public/static/
 /client/public/build/
-/client/public/
 /client/*.pid
 
 # === Strapi (server) ===
@@ -52,6 +51,7 @@ out/
 /server/public/**/*.zip
 
 # Strapi build artifacts
+/server/src/plugins/sitemap/server/services/sitemap.json
 /server/strapi/client/
 /server/.strapi/
 /server/.cache/

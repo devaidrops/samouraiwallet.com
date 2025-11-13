@@ -100,6 +100,88 @@ export interface SharedImage extends Schema.Component {
   };
 }
 
+export interface ConfigReviewValueList extends Schema.Component {
+  collectionName: 'components_config_review_value_lists';
+  info: {
+    displayName: 'Possible Value';
+    description: '';
+  };
+  attributes: {
+    value: Attribute.String;
+  };
+}
+
+export interface ConfigReviewPossibleTriggerValues extends Schema.Component {
+  collectionName: 'components_config_review_possible_trigger_values';
+  info: {
+    displayName: 'Possible Trigger Values';
+    description: '';
+  };
+  attributes: {
+    widget_min_deposit_withdrawal_label: Attribute.String;
+    widget_min_deposit_withdrawal_values: Attribute.Component<
+      'config-review.value-list',
+      true
+    >;
+    widget_trading_volume_label: Attribute.String;
+    widget_trading_volume_values: Attribute.Component<
+      'config-review.value-list',
+      true
+    >;
+    widget_verification_label: Attribute.String;
+    widget_verification_values: Attribute.Component<
+      'config-review.value-list',
+      true
+    >;
+    widget_spot_commission_label: Attribute.String;
+    widget_spot_commission_values: Attribute.Component<
+      'config-review.value-list',
+      true
+    >;
+    widget_futures_commission_label: Attribute.String;
+    widget_futures_commission_values: Attribute.Component<
+      'config-review.value-list',
+      true
+    >;
+  };
+}
+
+export interface ConfigReviewPossibleLinkValue extends Schema.Component {
+  collectionName: 'components_config_review_possible_link_values';
+  info: {
+    displayName: 'Possible Link Value';
+  };
+  attributes: {
+    value: Attribute.String;
+    link: Attribute.String;
+  };
+}
+
+export interface ConfigReviewPossibleInfo extends Schema.Component {
+  collectionName: 'components_config_review_possible_infos';
+  info: {
+    displayName: 'Possible Company Info';
+    description: '';
+  };
+  attributes: {
+    label: Attribute.String;
+    values: Attribute.Component<'config-review.possible-link-value', true>;
+  };
+}
+
+export interface HomepageDeskCard extends Schema.Component {
+  collectionName: 'components_homepage_desk_cards';
+  info: {
+    displayName: 'Desk Card';
+    description: '';
+  };
+  attributes: {
+    icon: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    link: Attribute.String;
+    label: Attribute.String;
+  };
+}
+
 export interface ReviewTriggerWidget extends Schema.Component {
   collectionName: 'components_review_trigger_widgets';
   info: {
@@ -197,88 +279,6 @@ export interface ReviewCompanyInfo extends Schema.Component {
   };
 }
 
-export interface HomepageDeskCard extends Schema.Component {
-  collectionName: 'components_homepage_desk_cards';
-  info: {
-    displayName: 'Desk Card';
-    description: '';
-  };
-  attributes: {
-    icon: Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    link: Attribute.String;
-    label: Attribute.String;
-  };
-}
-
-export interface ConfigReviewValueList extends Schema.Component {
-  collectionName: 'components_config_review_value_lists';
-  info: {
-    displayName: 'Possible Value';
-    description: '';
-  };
-  attributes: {
-    value: Attribute.String;
-  };
-}
-
-export interface ConfigReviewPossibleTriggerValues extends Schema.Component {
-  collectionName: 'components_config_review_possible_trigger_values';
-  info: {
-    displayName: 'Possible Trigger Values';
-    description: '';
-  };
-  attributes: {
-    widget_min_deposit_withdrawal_label: Attribute.String;
-    widget_min_deposit_withdrawal_values: Attribute.Component<
-      'config-review.value-list',
-      true
-    >;
-    widget_trading_volume_label: Attribute.String;
-    widget_trading_volume_values: Attribute.Component<
-      'config-review.value-list',
-      true
-    >;
-    widget_verification_label: Attribute.String;
-    widget_verification_values: Attribute.Component<
-      'config-review.value-list',
-      true
-    >;
-    widget_spot_commission_label: Attribute.String;
-    widget_spot_commission_values: Attribute.Component<
-      'config-review.value-list',
-      true
-    >;
-    widget_futures_commission_label: Attribute.String;
-    widget_futures_commission_values: Attribute.Component<
-      'config-review.value-list',
-      true
-    >;
-  };
-}
-
-export interface ConfigReviewPossibleLinkValue extends Schema.Component {
-  collectionName: 'components_config_review_possible_link_values';
-  info: {
-    displayName: 'Possible Link Value';
-  };
-  attributes: {
-    value: Attribute.String;
-    link: Attribute.String;
-  };
-}
-
-export interface ConfigReviewPossibleInfo extends Schema.Component {
-  collectionName: 'components_config_review_possible_infos';
-  info: {
-    displayName: 'Possible Company Info';
-    description: '';
-  };
-  attributes: {
-    label: Attribute.String;
-    values: Attribute.Component<'config-review.possible-link-value', true>;
-  };
-}
-
 export interface BottomToolbarLinkWithIcon extends Schema.Component {
   collectionName: 'components_bottom_toolbar_link_with_icons';
   info: {
@@ -302,6 +302,11 @@ declare module '@strapi/types' {
       'shared.meta': SharedMeta;
       'shared.label': SharedLabel;
       'shared.image': SharedImage;
+      'config-review.value-list': ConfigReviewValueList;
+      'config-review.possible-trigger-values': ConfigReviewPossibleTriggerValues;
+      'config-review.possible-link-value': ConfigReviewPossibleLinkValue;
+      'config-review.possible-info': ConfigReviewPossibleInfo;
+      'homepage.desk-card': HomepageDeskCard;
       'review.trigger-widget': ReviewTriggerWidget;
       'review.trigger-value': ReviewTriggerValue;
       'review.summary-rating': ReviewSummaryRating;
@@ -309,11 +314,6 @@ declare module '@strapi/types' {
       'review.pros-cons': ReviewProsCons;
       'review.content-menu': ReviewContentMenu;
       'review.company-info': ReviewCompanyInfo;
-      'homepage.desk-card': HomepageDeskCard;
-      'config-review.value-list': ConfigReviewValueList;
-      'config-review.possible-trigger-values': ConfigReviewPossibleTriggerValues;
-      'config-review.possible-link-value': ConfigReviewPossibleLinkValue;
-      'config-review.possible-info': ConfigReviewPossibleInfo;
       'bottom-toolbar.link-with-icon': BottomToolbarLinkWithIcon;
     }
   }

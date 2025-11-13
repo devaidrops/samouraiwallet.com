@@ -1376,6 +1376,7 @@ export interface ApiPostPost extends Schema.CollectionType {
         };
       }>;
     coinGeckoId: Attribute.String;
+    ticker: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
