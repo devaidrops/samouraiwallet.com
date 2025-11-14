@@ -82,8 +82,9 @@ module.exports = {
         },
       });
 
+    // Генерируем общий рейтинг от 1.2 до 2.9
     if (!event.params.data.rating) {
-      event.params.data.rating = +(Math.random() * 5).toFixed(1);
+      event.params.data.rating = +(Math.random() * (2.9 - 1.2) + 1.2).toFixed(1);
     }
 
     if (!event.params.data?.summary?.length) {
@@ -91,11 +92,19 @@ module.exports = {
         .query("api::review-rating-category.review-rating-category")
         .findMany();
       if (summaryCategories?.length > 0) {
+        const baseRating = event.params.data.rating;
+        const variance = 0.5; // Максимальное отклонение от базового рейтинга
+
         const result = await strapi.query("review.summary-rating").createMany({
-          data: summaryCategories.map((category) => ({
-            title: category.label,
-            rating: +(Math.random() * 5).toFixed(1),
-          })),
+          data: summaryCategories.map((category) => {
+            // Генерируем рейтинг с небольшим отклонением от общего
+            const offset = (Math.random() * 2 - 1) * variance; // от -0.5 до +0.5
+            const categoryRating = Math.max(0.5, Math.min(5, baseRating + offset));
+            return {
+              title: category.label,
+              rating: +categoryRating.toFixed(1),
+            };
+          }),
         });
         event.params.data.summary = result.ids.map((id) => ({
           id,
