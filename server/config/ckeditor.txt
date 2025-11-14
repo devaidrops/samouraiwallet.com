@@ -98,6 +98,7 @@ globalThis.CKEditorConfig = {
                     CKEditor5.essentials.Essentials,
                     CKEditor5.list.TodoList,
                     CKEditor5.style.Style,
+                    CKEditor5.sourceEditing.SourceEditing,
                   ],
 
                   /* By default, for plugin's UI will use
@@ -131,6 +132,8 @@ globalThis.CKEditorConfig = {
                     'heading',
                     '|',
                     'strapiMediaLib', 'insertTable',
+                    '|',
+                    'sourceEditing',
                     '|',
                     'undo', 'redo'
                   ],
