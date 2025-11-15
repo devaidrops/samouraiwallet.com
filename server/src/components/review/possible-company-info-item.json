@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_review_possible_company_info_items",
+  "info": {
+    "displayName": "Possible Company Info Item"
+  },
+  "options": {},
+  "attributes": {
+    "label": {
+      "type": "string"
+    },
+    "value": {
+      "type": "string"
+    },
+    "link": {
+      "type": "string"
+    }
+  }
+}

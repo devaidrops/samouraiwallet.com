@@ -79,12 +79,6 @@
       "repeatable": false,
       "component": "review.trigger-value"
     },
-    "company_info": {
-      "displayName": "Company Info",
-      "type": "component",
-      "repeatable": true,
-      "component": "review.company-info"
-    },
     "comments": {
       "type": "relation",
       "relation": "oneToMany",
@@ -117,6 +111,17 @@
           "enabled": true
         }
       }
+    },
+    "possible_company_info": {
+      "type": "component",
+      "repeatable": true,
+      "component": "review.possible-company-info-item"
+    },
+    "company_info": {
+      "displayName": "Company Info",
+      "type": "component",
+      "repeatable": true,
+      "component": "review.company-info"
     }
   }
 }

@@ -3,6 +3,7 @@ import Head from "next/head";
 import BlogCategoryPage from "@/components/BlogCategoryPage";
 import NotFoundPage from "@/components/NotFoundPage";
 import ReviewCategoryPage from "@/components/ReviewCategoryPage";
+import ContentWithLightbox from "@/components/ContentWithLightbox";
 import { GeneralOptionModel } from "@/models/general-option.model";
 import { PostModel } from "@/models/post.model";
 import { PostCategoryModel } from "@/models/post-category.model";
@@ -238,10 +239,7 @@ export default function ExchangePage({
             ) : null}
 
             {customPage.content ? (
-              <div
-                className="page-content"
-                dangerouslySetInnerHTML={{ __html: customPage.content }}
-              />
+              <ContentWithLightbox html={customPage.content} className="page-content" />
             ) : null}
           </div>
         </main>

@@ -55,7 +55,7 @@ export default function CoinPriceWidget({
 
         setPrice(data.usd);
         setCoinAmount("1");
-        setUsdAmount(formatNumber(data.usd, 6));
+        setUsdAmount(formatNumberForInput(data.usd, 6));
       } catch (err) {
         if (err.name !== "AbortError") {
           setError("Ошибка");
@@ -84,7 +84,7 @@ export default function CoinPriceWidget({
 
     const numericValue = parseNumber(value);
     if (price && numericValue !== null) {
-      setUsdAmount(formatNumber(numericValue * price, 6));
+      setUsdAmount(formatNumberForInput(numericValue * price, 6));
     } else {
       setUsdAmount("");
     }
@@ -95,7 +95,7 @@ export default function CoinPriceWidget({
 
     const numericValue = parseNumber(value);
     if (price && price !== 0 && numericValue !== null) {
-      setCoinAmount(formatNumber(numericValue / price, 8));
+      setCoinAmount(formatNumberForInput(numericValue / price, 8));
     } else {
       setCoinAmount("");
     }
@@ -200,14 +200,13 @@ export default function CoinPriceWidget({
 
       <style jsx>{`
         .coin-price-widget {
-          margin: 16px 0;
+          margin: 16px auto;
           padding: 18px 20px 22px;
           border: 1px solid #d8dbe7;
           border-radius: 16px;
-          background: #ffffff;
-          max-width: 640px;
+          background: var(--mainbrand-white);
           font-family: inherit;
-          color: #1c2734;
+          color: var(--mainbrand-black);
           box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
         }
 
@@ -339,5 +338,17 @@ function formatNumber(value, maxFractionDigits = 6) {
     minimumFractionDigits: 0,
     maximumFractionDigits: maxFractionDigits,
   });
+}
+
+// Форматирование числа для input (без запятых, только точка для десятичных)
+function formatNumberForInput(value, maxFractionDigits = 6) {
+  if (!Number.isFinite(value)) {
+    return "";
+  }
+
+  // Используем toFixed для контроля десятичных знаков, затем убираем лишние нули
+  const fixed = value.toFixed(maxFractionDigits);
+  // Убираем лишние нули в конце
+  return fixed.replace(/\.?0+$/, "") || "0";
 }
 

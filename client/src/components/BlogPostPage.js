@@ -10,6 +10,7 @@ import Link from "next/link";
 import NotFoundPage from "@/components/NotFoundPage";
 import { CommentModel } from "@/models/comment.model";
 import { getPostUrl } from "@/utils/getPostUrl";
+import ContentWithLightbox from "@/components/ContentWithLightbox";
 
 export default function BlogPostPage({
   post,
@@ -291,10 +292,7 @@ export default function BlogPostPage({
             className="article-show__short-desc common-short-desc"
             itemProp="articleBody"
           >
-            <div
-              className="wysiwyg-content"
-              dangerouslySetInnerHTML={{ __html: post.post_content }}
-            ></div>
+            <ContentWithLightbox html={post.post_content} />
           </div>
 
           <div className="article-show__content">

@@ -19,7 +19,7 @@ export default function ReviewCategoryPage({
   const currentPage = +(page || 1);
 
   const companyInfoWidgets = useMemo(
-    () => [...(generalOption?.company_info_widgets || []).slice(0, 3)],
+    () => [...(generalOption?.company_info_widgets || [])],
     [generalOption]
   );
 
@@ -106,7 +106,7 @@ export default function ReviewCategoryPage({
           <h1 itemProp="name">{reviewCategory.title}</h1>
         </div>
 
-        <div className="brokers-table sm:overflow-auto max-sm:table">
+        <div className="brokers-table max-sm:table">
           <table>
             <thead>
               <tr>
@@ -118,10 +118,12 @@ export default function ReviewCategoryPage({
                     <span>Общий рейтинг</span>
                   </div>
                 </td>
-                {companyInfoWidgets.map((item) => (
+                {companyInfoWidgets
+                  .filter((item) => item.label !== "Лет на рынке" && item.label !== "Негативные отзывы")
+                  .map((item) => (
                   <td key={item.id}>
                     <div className="inner">
-                      <span className="whitespace-nowrap">{item.label}</span>
+                      <span className="whitespace-normal">{item.label}</span>
 
                       {item.tooltip_title && item.tooltip_content && (
                         <TableTooltip
@@ -169,27 +171,23 @@ export default function ReviewCategoryPage({
                       />
                     </span>
                   </td>
-                  <td className="no-wrap coins-wrapper">
-                    <span className="show-mobile">
-                      {companyInfoWidgets[0].label}:&nbsp;
-                    </span>
-                    <span className="whitespace-normal">
-                      {review.company_info[0]?.value}
-                    </span>
-                  </td>
-                  <td className="kyc-wrapper">
-                    <span className="show-mobile">
-                      {companyInfoWidgets[1].label}:&nbsp;
-                    </span>
-                    <span className="whitespace-normal value">
-                      {review.company_info[1]?.value}
-                    </span>
-                  </td>
-                  <td className="no-wrap fiat-wrapper">
-                    <span className="whitespace-normal">
-                      {review.company_info[2]?.value}
-                    </span>
-                  </td>
+                  {companyInfoWidgets
+                    .filter((widget) => widget.label !== "Лет на рынке" && widget.label !== "Негативные отзывы")
+                    .map((widget) => {
+                    const companyInfoItem = review.company_info?.find(
+                      (item) => item.title === widget.label
+                    );
+                    return (
+                      <td key={widget.id} className="no-wrap">
+                        <span className="show-mobile">
+                          {widget.label}:&nbsp;
+                        </span>
+                        <span className="whitespace-normal">
+                          {companyInfoItem?.value || ""}
+                        </span>
+                      </td>
+                    );
+                  })}
                   <td className="link-wrapper">
                     <Link
                       href={`/${review.review_category.slug}/${review.slug}`}

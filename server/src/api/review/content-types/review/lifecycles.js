@@ -49,12 +49,18 @@ module.exports = {
     }
 
     if (result.company_info) {
-      const labels = reviewOptions.company_info_widgets.map(
-        (widget) => widget.label
-      );
-      result.company_info.forEach((item, index) => {
-        item.title = labels[index];
-      });
+      // Проверяем наличие виджетов в настройках
+      if (reviewOptions.company_info_widgets?.length > 0) {
+        const labels = reviewOptions.company_info_widgets.map(
+          (widget) => widget.label
+        );
+        result.company_info.forEach((item, index) => {
+          // Используем сохраненное значение title, если оно есть, иначе заполняем из widgets
+          if (!item.title && labels[index]) {
+            item.title = labels[index];
+          }
+        });
+      }
     }
   },
   async beforeCreate(event) {

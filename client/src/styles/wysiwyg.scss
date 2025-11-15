@@ -423,6 +423,14 @@
     border-radius: 12px;
     max-width: 100%;
     height: auto;
+    display: block;
+    margin: 0.9em auto;
+    cursor: zoom-in;
+    transition: opacity 0.2s ease;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
   a {
