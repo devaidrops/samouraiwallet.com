@@ -2259,6 +2259,15 @@ a.text-url:hover {
 .brokers-table .logo-wrapper a {
   text-decoration: none;
   color: var(--mainbrand-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.brokers-preset-table .logo-wrapper .broker-logo,
+.brokers-table .logo-wrapper .broker-logo {
+  display: block;
+  align-self: center;
 }
 
 .brokers-preset-table table,
@@ -2270,10 +2279,10 @@ a.text-url:hover {
   border-spacing: 0;
 }
 
-.brokers-preset-table table tr,
-.brokers-table table tr {
-  border-bottom: 1px solid var(--secondarygrey-200);
-}
+// .brokers-preset-table table tr,
+// .brokers-table table tr {
+//   border-bottom: 1px solid ;
+// }
 
 .brokers-preset-table table tr:hover,
 .brokers-table table tr:hover {
@@ -2282,7 +2291,7 @@ a.text-url:hover {
 
 .brokers-preset-table table td,
 .brokers-table table td {
-  padding: 12px 8px;
+  padding: 12px;
   position: relative;
   font-family: var(--font-family-inter);
   font-size: var(--font-size-m);
@@ -2302,6 +2311,7 @@ a.text-url:hover {
   white-space: nowrap;
   width: auto;
   min-width: fit-content;
+  text-align: center;
 }
 
 .brokers-preset-table table thead tr:hover,
@@ -2334,28 +2344,27 @@ a.text-url:hover {
 .brokers-preset-table table thead td .inner,
 .brokers-table table thead td .inner {
   align-items: center;
+  justify-content: center;
   align-self: stretch;
   display: flex;
   flex: 1;
   flex-grow: 1;
   gap: 4px;
   position: relative;
-  white-space: normal;
 }
 
 .brokers-preset-table .desk-button-table,
 .brokers-table .desk-button-table {
   background-color: var(--secondaryblue-100);
   border-radius: 4px;
-  flex: 1;
-  flex-grow: 1;
   gap: 10px;
-  justify-content: center;
+  justify-content: flex-end;
   margin-bottom: -1px;
   margin-top: -1px;
-  padding: 6px 16px;
+  padding: 8px 32px;
   position: relative;
   text-decoration: none !important;
+  width: fit-content;
 }
 
 .brokers-preset-table .desk-button-table .button-text,
@@ -3795,7 +3804,7 @@ a.text-url:hover {
 
 .top-page-info .top-page-info-inner {
   align-items: center;
-  background-image: url(/images/promo-codes-show-top-bg.png?342b5931738876c4dcfe3c2fcad01271);
+  background-image: url("https://coingecko.twc1.net/strapi/uploads/fon_review_af7f262c69.jpg");
   background-position: 50% 50%;
   background-color: var(--mainbrand-white);
   background-size: cover;
@@ -6113,10 +6122,25 @@ h1 {
     font-size: 12px;
   }
 
-  .brokers-show .company-info-wrapper .info-unit .unit-info .unit-value,
-  .promo_codes-show .triggers-wrapper .trigger .trigger-title {
-    font-size: 14px;
-    line-height: 1.3em;
+  .brokers-preset-table .logo-wrapper,
+  .brokers-table .logo-wrapper {
+    white-space: normal;
+    width: 183px;
+    align-items: center;
+    display: flex;
+  }
+
+  .brokers-preset-table .logo-wrapper a,
+  .brokers-table .logo-wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brokers-preset-table .logo-wrapper .broker-logo,
+  .brokers-table .logo-wrapper .broker-logo {
+    display: block;
+    align-self: center;
   }
 }
 
@@ -6174,21 +6198,82 @@ h1 {
   .brokers-table table td,
   .brokers-table table thead td {
     font-size: 13px;
+    padding: 10px 8px;
   }
 
   .brokers-preset-table table thead td.link,
   .brokers-table table thead td.link {
     width: auto;
+    min-width: 80px;
+  }
+
+  /* Горизонтальные линии между строками таблицы */
+  .brokers-table table tbody tr td,
+  .brokers-preset-table table tbody tr td {
+    border-top: 1px solid #050505 !important;
+  }
+
+  /* У первой строки сверху линию убираем */
+  .brokers-table table tbody tr:first-child td,
+  .brokers-preset-table table tbody tr:first-child td {
+    border-top: none !important;
   }
 
   .brokers-preset-table .desk-button-table,
   .brokers-table .desk-button-table {
     padding: 8px 16px;
+    min-width: fit-content;
   }
 
   .brokers-preset-table .logo-wrapper,
   .brokers-table .logo-wrapper {
     white-space: normal;
+    gap: 6px;
+    max-width: 160px;
+    align-items: center;
+    display: flex;
+  }
+
+  .brokers-preset-table .logo-wrapper a,
+  .brokers-table .logo-wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brokers-preset-table .logo-wrapper .broker-logo,
+  .brokers-table .logo-wrapper .broker-logo {
+    display: block;
+    align-self: center;
+  }
+
+  .brokers-table .logo-wrapper .name {
+    font-size: 13px;
+    line-height: 1.3em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    word-break: break-word;
+  }
+
+  .brokers-table table td.no-wrap {
+    white-space: nowrap;
+    min-width: auto;
+  }
+
+  .brokers-table table td.turnover-wrapper {
+    padding: 8px 4px;
+  }
+
+  .brokers-table .normal-rating {
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .brokers-table table thead td .inner span {
+    font-size: 12px;
   }
 
   .portofolio-item
@@ -6800,6 +6885,36 @@ h1 {
   border-radius: 8px;
 }
 
+/* Чтобы бордеры по ячейкам нормально рисовались */
+.brokers-table table,
+.brokers-preset-table table {
+  border-collapse: separate !important;
+  border-spacing: 0;
+}
+
+/* Линии между строками — бордер у ячеек, а не у tr */
+.brokers-table table tbody tr + tr td,
+.brokers-preset-table table tbody tr + tr td {
+  border-top: 1px solid #e0e0e0 !important;  /* нужный цвет линии */
+}
+
+/* Верхняя линия — только у первой строки */
+.brokers-table table tbody tr:first-child td,
+.brokers-preset-table table tbody tr:first-child td {
+  border-top: 1px solid #e0e0e0 !important;
+}
+
+/* Нижняя линия — только у последней строки */
+.brokers-table table tbody tr:last-child td,
+.brokers-preset-table table tbody tr:last-child td {
+  border-bottom: 1px solid #e0e0e0 !important; /* одинаковая линия */
+}
+
+.brokers-table table thead .whitespace-normal,
+.brokers-preset-table table thead .whitespace-normal {
+    white-space: nowrap !important;
+}
+
 @media (max-width: 1280px) {
   .home-top-cards .image-card {
     top: auto;
@@ -6819,6 +6934,31 @@ h1 {
 }
 
 @media (max-width: 576px) {
+  .brokers-preset-table .logo-wrapper,
+  .brokers-table .logo-wrapper {
+    white-space: normal;
+    width: 173px;
+    align-items: center;
+    display: flex;
+  }
+
+  .brokers-preset-table .logo-wrapper a,
+  .brokers-table .logo-wrapper a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brokers-preset-table .logo-wrapper .broker-logo,
+  .brokers-table .logo-wrapper .broker-logo {
+    display: block;
+    align-self: center;
+  }
+
+  .brokers-table tbody tr {
+    position: relative;
+  }
+  
   .site_width {
     width: 100%;
   }
@@ -7138,6 +7278,23 @@ h1 {
     width: 50px;
   }
 
+  .brokers-table table tbody tr + tr td,
+  .brokers-preset-table table tbody tr + tr td {
+    border-top: none !important;
+  }
+
+  /* Верхняя линия — только у первой строки */
+  .brokers-table table tbody tr:first-child td,
+  .brokers-preset-table table tbody tr:first-child td {
+    border-top: none!important;
+  }
+
+  /* Нижняя линия — только у последней строки */
+  .brokers-table table tbody tr:last-child td,
+  .brokers-preset-table table tbody tr:last-child td {
+    border-bottom: none !important;
+  }
+
   .overlap-group-container {
     display: block;
   }
@@ -7165,7 +7322,7 @@ h1 {
     margin-bottom: 8px;
     padding: 16px;
     position: relative;
-    min-height: 92px;
+    min-height: 82px;
   }
 
   .brokers-table tr .show-mobile {
@@ -7191,10 +7348,26 @@ h1 {
     max-width: calc(100% - 150px);
     display: flex;
     flex-wrap: nowrap;
+    align-items: center;
 
     .logo-wrapper {
       flex-wrap: nowrap;
       white-space: wrap;
+      align-items: center;
+      display: flex;
+      gap: 8px;
+
+      a:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .broker-logo {
+        display: block;
+        margin: 0;
+        align-self: center;
+      }
 
       .name {
         -webkit-line-clamp: 2;
@@ -7212,8 +7385,8 @@ h1 {
   .brokers-table tr td.kyc-wrapper {
     position: absolute;
     bottom: 16px;
-    right: 60px;
-    max-width: calc(100% - 130px);
+    left: 16px;
+    max-width: calc(100% - 80px);
     display: flex;
     flex-wrap: nowrap;
 
@@ -7232,10 +7405,20 @@ h1 {
   }
 
   .brokers-table tr td.turnover-wrapper {
-    position: absolute;
-    bottom: 16px;
-    left: 16px;
+    top: 6px;
+    left: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
   }
+
+  .brokers-table tr td.turnover-wrapper .normal-rating {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
 
   .brokers-table tr td.fiat-wrapper {
     display: none;
@@ -7245,6 +7428,10 @@ h1 {
     position: absolute;
     top: 16px;
     right: 16px;
+    bottom: 16px;
+    height: auto;
+    display: flex;
+    align-items: stretch;
   }
 
   .brokers-table tr td.link-wrapper .desk-button {
@@ -7253,10 +7440,22 @@ h1 {
     }
     background-color: transparent;
     padding: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .brokers-table tr td.link-wrapper .desk-button .button-text {
     display: none;
+  }
+
+  .brokers-table tbody tr td.coins-wrapper-mobile {
+    white-space: normal !important;
+  }
+
+  .brokers-table tbody tr td.coins-wrapper-mobile .whitespace-normal {
+    white-space: normal !important;
   }
 
   .invest {
@@ -8050,4 +8249,52 @@ h1 {
     padding: 0;
     width: 100%;
   }
+
+  .brokers-preset-table table td.no-wrap,
+  .brokers-table table td.no-wrap {
+    position: relative;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+
+    .show-mobile,
+    .whitespace-normal {
+      text-align: center;
+    }
+  }
+
+  .brokers-table tbody tr td.coins-wrapper-mobile {
+    position: absolute;
+    top: 20px;
+    right: 60px;
+    white-space: normal !important;
+    
+  }
+
+  .coins-wrapper .whitespace-normal {
+    width: 104px;
+  }
 }
+
+@media (max-width: 500px) {
+  /* ломаем поведение no-wrap именно для этой ячейки */
+  .brokers-table table td.coins-wrapper-mobile.no-wrap {
+    white-space: normal !important;
+    display: block !important;
+    margin-top: -5px;
+  }
+
+  /* делаем подпись и значение отдельно друг под другом */
+  .brokers-table table td.coins-wrapper-mobile.no-wrap .show-mobile,
+  .brokers-table table td.coins-wrapper-mobile.no-wrap .whitespace-normal {
+    display: block;
+    white-space: normal !important;
+  }
+}
+
+
+
+
+

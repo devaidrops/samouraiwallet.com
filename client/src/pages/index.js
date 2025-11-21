@@ -250,98 +250,106 @@ export default function Home({
                   </div>
                 </td>
                 {companyInfoWidgets
-                  .filter((item) => item.label !== "Лет на рынке" && item.label !== "Негативные отзывы")
+                  .filter(
+                    (item) =>
+                      item.label !== "Лет на рынке" &&
+                      item.label !== "Негативные отзывы" &&
+                      item.label !== "Вид спорта" &&
+                      item.label !== "Направление"
+                  )
                   .map((item) => (
-                  <td key={item.id}>
-                    <div className="inner">
-                      <span className="whitespace-normal">{item.label}</span>
+                    <td key={item.id}>
+                      <div className="inner">
+                        <span className="whitespace-normal">{item.label}</span>
 
-                      {item.tooltip_title && item.tooltip_content && (
-                        <TableTooltip
-                          title={item.tooltip_title}
-                          content={item.tooltip_content}
-                        />
-                      )}
-                    </div>
-                  </td>
-                ))}
+                        {item.tooltip_title && item.tooltip_content && (
+                          <TableTooltip
+                            title={item.tooltip_title}
+                            content={item.tooltip_content}
+                          />
+                        )}
+                      </div>
+                    </td>
+                  ))}
                 <td className="link"></td>
               </tr>
             </thead>
 
             <tbody>
-              {reviews.map((review) => (
-                <tr key={review.id}>
-                  <td className="logo-wrapper-cell">
-                    <span className="logo-wrapper">
+              {reviews.map((review) => {
+                // тут вытаскиваем из company_info значение "Прошел проверку?"
+                const checkInfo = review.company_info?.find(
+                  (item) => item.title === "Прошел проверку?"
+                );
+
+                return (
+                  <tr key={review.id}>
+                    <td className="logo-wrapper-cell">
+                      <span className="logo-wrapper">
+                        <Link
+                          href={`/${review.review_category.slug}/${review.slug}`}
+                        >
+                          <img
+                            className="broker-logo"
+                            src={review.logo}
+                            alt={review.id}
+                            width="24"
+                            height="24"
+                          />
+                        </Link>
+                        <Link
+                          href={`/${review.review_category.slug}/${review.slug}`}
+                        >
+                          <span className="name">{review.title}</span>
+                        </Link>
+                      </span>
+                    </td>
+
+                    {/* Общий рейтинг */}
+                    <td className="no-wrap turnover-wrapper">
+                      <span className="normal-rating flex justify-center items-center gap-1 flex-nowrap">
+                        <span className="sm:mb-[1px]">{review.rating}</span>
+                        <Ratings
+                          rating={review.rating}
+                          starImages={ratingImages}
+                          mobile
+                        />
+                      </span>
+                    </td>
+
+                    {/* Прошел проверку? */}
+                    <td className="no-wrap coins-wrapper-mobile">
+                      <span className="show-mobile">Прошел проверку?:&nbsp;</span>
+                      <span className="whitespace-normal">
+                        {checkInfo?.value || "На проверке"}
+                      </span>
+                    </td>
+
+                    <td className="link-wrapper">
                       <Link
                         href={`/${review.review_category.slug}/${review.slug}`}
+                        className="desk-button-table desk-button"
+                        title={review.title}
                       >
+                        <div className="button-text laptop-desktoptext-s-14-med">
+                          Обзор
+                        </div>
                         <img
-                          className="broker-logo"
-                          src={review.logo}
-                          alt={review.id}
-                          width="24"
-                          height="24"
+                          src="/img/icon-arrow-table.svg"
+                          className="show-mobile"
+                          alt=""
                         />
                       </Link>
-                      <Link
-                        href={`/${review.review_category.slug}/${review.slug}`}
-                      >
-                        <span className="name">{review.title}</span>
-                      </Link>
-                    </span>
-                  </td>
-                  <td className="no-wrap turnover-wrapper">
-                    <span className="normal-rating flex justify-center items-center gap-1 flex-nowrap">
-                      <span className="sm:mb-[1px]">{review.rating}</span>
-                      <Ratings
-                        rating={review.rating}
-                        starImages={ratingImages}
-                        mobile
-                      />
-                    </span>
-                  </td>
-                  {companyInfoWidgets
-                    .filter((widget) => widget.label !== "Лет на рынке" && widget.label !== "Негативные отзывы")
-                    .map((widget) => {
-                    const companyInfoItem = review.company_info?.find(
-                      (item) => item.title === widget.label
-                    );
-                    return (
-                      <td key={widget.id} className="no-wrap">
-                        <span className="show-mobile">
-                          {widget.label}:&nbsp;
-                        </span>
-                        <span className="whitespace-normal">
-                          {companyInfoItem?.value || ""}
-                        </span>
-                      </td>
-                    );
-                  })}
-                  <td className="link-wrapper">
-                    <Link
-                      href={`/${review.review_category.slug}/${review.slug}`}
-                      className="desk-button-table desk-button"
-                      title={review.title}
-                    >
-                      <div className="button-text laptop-desktoptext-s-14-med">
-                        Обзор
-                      </div>
-                      <img
-                        src="/img/icon-arrow-table.svg"
-                        className="show-mobile"
-                        alt=""
-                      />
-                    </Link>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
+
           </table>
         </div>
         )}
-
+        
         {pageCount > 1 && (
           <Paginator
             currentPage={currentPage}

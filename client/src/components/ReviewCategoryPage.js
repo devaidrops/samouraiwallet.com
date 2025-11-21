@@ -119,21 +119,21 @@ export default function ReviewCategoryPage({
                   </div>
                 </td>
                 {companyInfoWidgets
-                  .filter((item) => item.label !== "Лет на рынке" && item.label !== "Негативные отзывы")
+                  .filter((item) => item.label === "Прошел проверку?")
                   .map((item) => (
-                  <td key={item.id}>
-                    <div className="inner">
-                      <span className="whitespace-normal">{item.label}</span>
-
-                      {item.tooltip_title && item.tooltip_content && (
-                        <TableTooltip
-                          title={item.tooltip_title}
-                          content={item.tooltip_content}
-                        />
-                      )}
-                    </div>
-                  </td>
+                    <td key={item.id}>
+                      <div className="inner text-center">
+                        <span className="whitespace-nowrap">{item.label}</span>
+                        {item.tooltip_title && item.tooltip_content && (
+                          <TableTooltip
+                            title={item.tooltip_title}
+                            content={item.tooltip_content}
+                          />
+                        )}
+                      </div>
+                    </td>
                 ))}
+
                 <td className="link"></td>
               </tr>
             </thead>
@@ -172,22 +172,22 @@ export default function ReviewCategoryPage({
                     </span>
                   </td>
                   {companyInfoWidgets
-                    .filter((widget) => widget.label !== "Лет на рынке" && widget.label !== "Негативные отзывы")
+                    .filter((widget) => widget.label === "Прошел проверку?")
                     .map((widget) => {
-                    const companyInfoItem = review.company_info?.find(
-                      (item) => item.title === widget.label
-                    );
-                    return (
-                      <td key={widget.id} className="no-wrap">
-                        <span className="show-mobile">
-                          {widget.label}:&nbsp;
-                        </span>
-                        <span className="whitespace-normal">
-                          {companyInfoItem?.value || ""}
-                        </span>
-                      </td>
-                    );
+                      const companyInfoItem = review.company_info?.find(
+                        (item) => item.title === widget.label
+                      );
+
+                      return (
+                        <td key={widget.id} className="no-wrap coins-wrapper-mobile">
+                          <span className="show-mobile">{widget.label}:&nbsp;</span>
+                          <span className="whitespace-normal">
+                            {companyInfoItem?.value || "На проверке"}
+                          </span>
+                        </td>
+                      );
                   })}
+
                   <td className="link-wrapper">
                     <Link
                       href={`/${review.review_category.slug}/${review.slug}`}

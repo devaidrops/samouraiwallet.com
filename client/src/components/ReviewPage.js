@@ -241,6 +241,11 @@ export default function ReviewPage({ review, generalOption, host }) {
     return <NotFoundPage />;
   }
 
+  const bg =
+  generalOption?.review_background?.url ||
+  generalOption?.review_background ||
+  null;
+
   return (
     <>
       <Head>
@@ -354,12 +359,11 @@ export default function ReviewPage({ review, generalOption, host }) {
           <meta itemProp="headline" content={review.title} />
 
           <div className="top-page-info">
-            <div
-              className="top-page-info-inner"
-              style={{
-                backgroundImage: `url(${generalOption.review_background})`,
-              }}
-            >
+          <div
+            className="top-page-info-inner"
+            style={bg ? { backgroundImage: `url(${bg})` } : {}}
+          >
+
               <div className="middle-part">
                 <div className="w-fit flex items-center gap-5">
                   {review.logo && <img className="block-logo" src={review.logo} alt={review.title} />}
