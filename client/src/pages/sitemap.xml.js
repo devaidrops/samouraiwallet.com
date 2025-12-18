@@ -1,10 +1,7 @@
 export async function getServerSideProps({ res }) {
 
-    const API_BASE = "http://127.0.0.1:1337";
-  const NEXT_PUBLIC_STRAPI_URL =
-    API_BASE;
-   const NEXT_PUBLIC_STRAPI_URL_S = process.env.NEXT_PUBLIC_APP_URL
-  const NEXT_PUBLIC_BASE_URL = API_BASE;
+  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
+  const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://cryptoteh.ru";
   const NEXT_PUBLIC_POSTS_PRIORITY =
     process.env.NEXT_PUBLIC_POSTS_PRIORITY || 0.6;
   const NEXT_PUBLIC_REVIEWS_PRIORITY =

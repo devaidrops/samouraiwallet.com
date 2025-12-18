@@ -27,6 +27,11 @@
       "relation": "oneToMany",
       "target": "api::review-category.review-category"
     },
+    "default_review_category": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::review-category.review-category"
+    },
     "possible_trigger_values": {
       "displayName": "Possible Trigger Values",
       "type": "component",

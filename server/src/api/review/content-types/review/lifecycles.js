@@ -2,6 +2,7 @@ const {
   getRandomElement,
   getRandomElements,
 } = require("../../../../utils/array.utils");
+
 module.exports = {
   async afterFindOne(event) {
     const { result } = event;
@@ -49,13 +50,11 @@ module.exports = {
     }
 
     if (result.company_info) {
-      // Проверяем наличие виджетов в настройках
       if (reviewOptions.company_info_widgets?.length > 0) {
         const labels = reviewOptions.company_info_widgets.map(
           (widget) => widget.label
         );
         result.company_info.forEach((item, index) => {
-          // Используем сохраненное значение title, если оно есть, иначе заполняем из widgets
           if (!item.title && labels[index]) {
             item.title = labels[index];
           }
@@ -63,12 +62,14 @@ module.exports = {
       }
     }
   },
+
   async beforeCreate(event) {
     const configReview = await strapi
       .query("api::config-review.config-review")
       .findOne({
         populate: {
           review_categories: true,
+          default_review_category: true,
           cons: true,
           pros: true,
           possible_trigger_values: {
@@ -99,12 +100,11 @@ module.exports = {
         .findMany();
       if (summaryCategories?.length > 0) {
         const baseRating = event.params.data.rating;
-        const variance = 0.5; // Максимальное отклонение от базового рейтинга
+        const variance = 0.5;
 
         const result = await strapi.query("review.summary-rating").createMany({
           data: summaryCategories.map((category) => {
-            // Генерируем рейтинг с небольшим отклонением от общего
-            const offset = (Math.random() * 2 - 1) * variance; // от -0.5 до +0.5
+            const offset = (Math.random() * 2 - 1) * variance;
             const categoryRating = Math.max(0.5, Math.min(5, baseRating + offset));
             return {
               title: category.label,
@@ -119,11 +119,21 @@ module.exports = {
       }
     }
 
-    if (!event.params.data.review_categories?.connect?.length) {
-      if (configReview.review_categories?.length > 0) {
+    // ✅ дефолтная рубрика (если не передали)
+    if (!event.params.data.review_category) {
+      if (configReview?.default_review_category?.id) {
+        event.params.data.review_category = configReview.default_review_category.id;
+      } else if (configReview.review_categories?.length > 0) {
+        // fallback: рандом
         event.params.data.review_category = getRandomElement(
           configReview.review_categories.map((category) => category.id)
         );
+      }
+    }
+
+    // ✅ many-to-many: если не передали — подключаем все доступные
+    if (!event.params.data.review_categories?.connect?.length) {
+      if (configReview.review_categories?.length > 0) {
         if (!event.params.data.review_categories) {
           event.params.data.review_categories = {};
         }
@@ -216,6 +226,7 @@ module.exports = {
         __pivot: { field: "cons", component_type: "review.pros-cons" },
       }));
     }
+
     if (isEmpty(event.params.data.random_avatar_name_pair)) {
       try {
         const configThread = await strapi
@@ -256,6 +267,7 @@ module.exports = {
         console.error("Error fetching config:", error);
       }
     }
+
     const { data } = event.params;
     if (isEmpty(data.threaded_comment) && data.review_category) {
       try {
@@ -279,6 +291,7 @@ module.exports = {
       }
     }
   },
+
   async beforeUpdate(event) {
     if (event.params.data.publishedAt) {
       const review = await strapi

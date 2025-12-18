@@ -8,7 +8,8 @@ module.exports = {
       env: {
         HOST: "127.0.0.1",
         PORT: "1337",
-        NODE_ENV: "production"
+        NODE_ENV: "production",
+        PUBLIC_CLIENT_URL: "https://cryptoteh.ru"
       }
     },
     {
@@ -26,7 +27,7 @@ module.exports = {
       name: "frontend",
       cwd: "/srv/coingecko/client",
       script: "npm",
-      args: "run start",   // next start
+      args: "run start",
       env: {
         NODE_ENV: "production",
         PORT: "3000",

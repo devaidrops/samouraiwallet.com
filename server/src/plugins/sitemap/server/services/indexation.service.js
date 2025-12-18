@@ -137,21 +137,23 @@ module.exports = {
   },
 
   async getLinks() {
+    const baseUrl = process.env.PUBLIC_CLIENT_URL || 'https://cryptoteh.ru';
+  
     const reviews = await strapi.query('api::review.review').findMany({ populate: ['review_category'] });
     const posts = await strapi.query('api::post.post').findMany({ populate: ['post_category'] });
-
+  
     return [
       ...reviews.map((review) => ({
-        link: `${process.env['PUBLIC_CLIENT_URL']}/${review.review_category?.slug || ''}/${review.slug}`,
+        link: `${baseUrl}/${review.review_category?.slug || ''}/${review.slug}`,
         label: review.title
       })),
       ...posts.map((post) => ({
-        link: `${process.env['PUBLIC_CLIENT_URL']}/${post.post_category?.slug || ''}/${post.slug}`,
+        link: `${baseUrl}/${post.post_category?.slug || ''}/${post.slug}`,
         label: post.title
       })),
     ];
   },
-
+  
   /**
    * @param {'google' | 'yandex'} taskType
    * @param {string} apiKey

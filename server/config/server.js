@@ -12,7 +12,7 @@ module.exports = ({ env }) => {
     },
     // Only include these settings in production mode
     ...(isProd && {
-      url: env("PUBLIC_URL", "http://127.0.0.1:1337"),
+      url: env("PUBLIC_URL", "https://cryptoteh.ru"),
       admin: {
         url: env("ADMIN_URL", "http://127.0.0.1:1337/admin"),
         serveAdminPanel: true,
