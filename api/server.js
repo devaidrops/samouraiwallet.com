@@ -134,6 +134,18 @@ app.post("/create-review", async (req, res) => {
       );
     }
 
+    let isPublished = false;
+
+    if (payload.publishedAt !== undefined) {
+      const publishedAtValue = String(payload.publishedAt).toLowerCase();
+      isPublished = publishedAtValue === "publish" || publishedAtValue === "published";
+    }
+    else if (payload.review_status !== undefined) {
+      isPublished = payload.review_status === 1 || payload.review_status === "1" || payload.review_status === true;
+    }
+
+    const publishedAt = isPublished ? new Date() : null;
+
     const response = await axios.post(
       `${STRAPI_BASE_URL}/api/reviews`,
       {
@@ -151,7 +163,7 @@ app.post("/create-review", async (req, res) => {
           review_category:
             payload.main_category || payload.categories?.[0] || undefined,
           review_categories: payload.categories || undefined,
-          publishedAt: payload.review_status === 1 ? new Date() : null,
+          publishedAt: publishedAt,
         },
       },
       {
@@ -160,6 +172,7 @@ app.post("/create-review", async (req, res) => {
         },
       }
     );
+
     res.status(response.status).json({
       data: response.data,
       status: true,
