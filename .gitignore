@@ -46,6 +46,11 @@ out/
 /server/.tmp/
 /server/build/
 /server/public/uploads/
+
+# SQLite database (WAL mode)
+/server/database/*.db
+/server/database/*.db-shm
+/server/database/*.db-wal
 /server/public/**/*.tmp
 /server/public/**/*.bak
 /server/public/**/*.zip

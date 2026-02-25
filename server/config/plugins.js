@@ -1,4 +1,9 @@
 module.exports = () => ({
+  upload: {
+    config: {
+      sizeLimit: 65 * 1024 * 1024,
+    },
+  },
   menus: {
     config: {
       maxDepth: 3,

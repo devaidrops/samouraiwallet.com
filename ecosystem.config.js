@@ -2,19 +2,19 @@ module.exports = {
   apps: [
     {
       name: "strapi",
-      cwd: "/srv/coingecko/server",
+      cwd: "/srv/coinexplorers.com/server",
       script: "npm",
       args: "run start",
       env: {
         HOST: "127.0.0.1",
         PORT: "1337",
         NODE_ENV: "production",
-        PUBLIC_CLIENT_URL: "https://cryptoteh.ru"
+        PUBLIC_CLIENT_URL: "https://coinexplorers.tw1.su"
       }
     },
     {
       name: "api",
-      cwd: "/srv/coingecko/api",
+      cwd: "/srv/coinexplorers.com/api",
       script: "npm",
       args: "run start",
       env: {
@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      cwd: "/srv/coingecko/client",
+      cwd: "/srv/coinexplorers.com/client",
       script: "npm",
       args: "run start",
       env: {

@@ -10,8 +10,8 @@ const { JSDOM } = require("jsdom");
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-app.use(express.json({ limit: "50mb" })); // Set limit to 50MB for JSON
-app.use(express.urlencoded({ limit: "50mb", extended: true })); // Set limit for URL-encoded data
+app.use(express.json({ limit: "65mb" }));
+app.use(express.urlencoded({ limit: "65mb", extended: true }));
 app.use(cors());
 
 const STRAPI_BASE_URL = process.env.STRAPI_BASE_URL || "http://127.0.0.1:1337";
@@ -503,7 +503,8 @@ app.post("/upload-images", async (req, res) => {
   }
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Server is running on port ${PORT}`);
+// Start server (bind to localhost only for security)
+const HOST = process.env.HOST || "127.0.0.1";
+app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server is running on http://${HOST}:${PORT}`);
 });
