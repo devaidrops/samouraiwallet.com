@@ -71,6 +71,8 @@ out/
 /api/node_modules/
 /api/dist/
 /api/build/
+/api/Untitled-1.yaml
+/api/demodata.json
 
 # === Разное ===
 *.bak
