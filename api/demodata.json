@@ -13,7 +13,7 @@
       "allow_thread": true,
       "coinGeckoId": "",
       "ticker": "",
-      "publishedAt": "published"
+      "publishedAt": null
     },
     {
       "title": "Bank of England Tests Ripple (XRP) for Cross‑Border Payments",
@@ -29,6 +29,6 @@
       "allow_thread": true,
       "coinGeckoId": "",
       "ticker": "",
-      "publishedAt": "published"
+      "publishedAt": null
     }
   ]

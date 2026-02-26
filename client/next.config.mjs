@@ -4,7 +4,7 @@ import 'dotenv/config'; // подключает .env
 const nextConfig = {
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  trailingSlash: true,
+  trailingSlash: false,
   reactStrictMode: true,
   productionBrowserSourceMaps: true,
   experimental: {
