@@ -43,7 +43,7 @@ const Footer = ({ menu, copyrightMenu, generalOption }) => {
 
           <div className="menu-copyright laptop-desktoptext-m-15-reg">
             <div className="copyright">
-              © Cryptoteh.Ru {new Date().getFullYear()}
+            Copyright © {new Date().getFullYear()} - All Rights Reserved
             </div>
 
             {copyrightMenu.items.data.map((item) => (
