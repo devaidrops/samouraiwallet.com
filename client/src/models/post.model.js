@@ -57,8 +57,8 @@ export class PostModel {
     };
 
     this.meta = {
-      title: payload.attributes.meta?.title,
-      description: payload.attributes.meta?.description,
+      title: payload.attributes.meta?.title ?? payload.attributes.title ?? "",
+      description: payload.attributes.meta?.description ?? payload.attributes.description ?? "",
     };
 
     const mediaURL = payload.attributes.media?.data?.attributes?.url;

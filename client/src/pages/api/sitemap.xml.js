@@ -59,15 +59,18 @@ export default async function handler(req, res) {
       `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
     for (const post of posts) {
-      const catSlug = post?.attributes?.post_category?.data?.attributes?.slug;
       const slug = post?.attributes?.slug;
-      if (!catSlug || !slug) continue;
+      if (!slug) continue;
+
+      const catSlug = post?.attributes?.post_category?.data?.attributes?.slug;
+      const path = slug.includes("/") ? slug : (catSlug ? `${catSlug}/${slug}` : null);
+      if (!path) continue;
 
       const lastmod = (post.attributes.publishedAt || new Date().toISOString()).toString().split("T")[0];
 
       text += `\t<url>\n`;
       text += `\t\t<priority>${POSTS_PRIORITY}</priority>\n`;
-      text += `\t\t<loc>${SITE_URL}/${catSlug}/${slug}/</loc>\n`;
+      text += `\t\t<loc>${SITE_URL}/${path}/</loc>\n`;
       text += `\t\t<lastmod>${lastmod}</lastmod>\n`;
       text += `\t</url>\n`;
     }

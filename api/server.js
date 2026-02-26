@@ -107,7 +107,15 @@ app.post("/create-review", async (req, res) => {
         .json({ message: "Unauthorized: API Token is missing" });
     }
 
-    const payload = req.body;
+    // Поддержка массива (первый элемент) и полей seo / blogPostCategories
+    let payload = Array.isArray(req.body) ? req.body[0] ?? req.body : req.body;
+    payload = {
+      ...payload,
+      meta_title: payload.meta_title ?? payload.seo?.meta_title ?? "",
+      meta_description: payload.meta_description ?? payload.seo?.meta_description ?? "",
+      main_category: payload.main_category ?? payload.blogPostCategories?.[0] ?? payload.categories?.[0],
+      categories: payload.categories ?? payload.blogPostCategories,
+    };
 
     if (!payload.avatar && payload.avatar_url) {
       try {
@@ -183,6 +191,120 @@ app.post("/create-review", async (req, res) => {
       data: null,
       status: false,
       message: error?.message || "Failed to create review",
+      error: error?.response?.data || error?.message,
+    });
+  }
+});
+
+// API to create a post (api::post.post); accepts single object or array of objects
+app.post("/create-post", async (req, res) => {
+  try {
+    const apiToken = req.headers.authorization;
+    if (!apiToken) {
+      return res
+        .status(401)
+        .json({ message: "Unauthorized: API Token is missing" });
+    }
+
+    const items = Array.isArray(req.body) ? req.body : [req.body];
+    const results = [];
+    const errors = [];
+    if (items.length > 1) {
+      console.log(`[create-post] Processing batch of ${items.length} items`);
+    }
+
+    for (const payload of items) {
+      if (!payload || typeof payload !== "object") {
+        errors.push({ item: payload, message: "Invalid payload" });
+        continue;
+      }
+
+      const meta_title = payload.meta_title ?? payload.seo?.meta_title ?? "";
+      const meta_description = payload.meta_description ?? payload.seo?.meta_description ?? "";
+
+      let isPublished = false;
+      if (payload.publishedAt !== undefined && payload.publishedAt !== null) {
+        const v = String(payload.publishedAt).toLowerCase();
+        isPublished = v === "publish" || v === "published" || v === "true";
+      }
+      const publishedAt = isPublished ? new Date() : null;
+
+      const postCategoryId = payload.post_category ?? payload.postCategory;
+      const authorId = payload.author;
+      const data = {
+        title: payload.title ?? "",
+        slug: payload.slug ?? "",
+        description: payload.description ?? "",
+        meta: { title: meta_title, description: meta_description },
+        post_content: payload.post_content ?? payload.content ?? "",
+        allow_thread: payload.allow_thread !== false,
+        coinGeckoId: payload.coinGeckoId ?? "",
+        ticker: payload.ticker ?? "",
+        publishedAt,
+      };
+      if (authorId != null && authorId !== "") data.author = authorId;
+      if (postCategoryId != null && postCategoryId !== "") data.post_category = postCategoryId;
+
+      const slug = data.slug;
+      try {
+        let response;
+        if (slug) {
+          const existing = await axios.get(`${STRAPI_BASE_URL}/api/posts`, {
+            params: { "filters[slug][$eq]": slug },
+            headers: { Authorization: apiToken },
+          });
+          const existingId = existing.data?.data?.[0]?.id;
+          if (existingId) {
+            response = await axios.put(
+              `${STRAPI_BASE_URL}/api/posts/${existingId}`,
+              { data },
+              { headers: { Authorization: apiToken } }
+            );
+            results.push({ ...response.data, _updated: true });
+          } else {
+            response = await axios.post(
+              `${STRAPI_BASE_URL}/api/posts`,
+              { data },
+              { headers: { Authorization: apiToken } }
+            );
+            results.push(response.data);
+          }
+        } else {
+          response = await axios.post(
+            `${STRAPI_BASE_URL}/api/posts`,
+            { data },
+            { headers: { Authorization: apiToken } }
+          );
+          results.push(response.data);
+        }
+      } catch (err) {
+        errors.push({
+          title: payload.title,
+          slug: payload.slug,
+          message: err?.message || "Failed to create post",
+          error: err?.response?.data || err?.message,
+        });
+      }
+    }
+
+    const successCount = results.length;
+    const failCount = errors.length;
+    const message =
+      failCount === 0
+        ? `${successCount} post(s) successfully added`
+        : `${successCount} created, ${failCount} failed`;
+
+    res.status(failCount === items.length ? 500 : 200).json({
+      data: results,
+      errors: errors.length ? errors : undefined,
+      status: successCount > 0,
+      message,
+    });
+  } catch (error) {
+    res.status(error?.response?.status || 500).json({
+      data: null,
+      status: false,
+      message: error?.message || "Failed to create post",
       error: error?.response?.data || error?.message,
     });
   }

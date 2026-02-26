@@ -1,24 +1,18 @@
 /**
- * Генерирует URL для поста в зависимости от наличия ticker
- * @param {Object} post - объект поста
- * @param {string} post.slug - slug поста
- * @param {string} post.ticker - ticker поста (необязательное поле)
- * @param {Object} post.post_category - категория поста
- * @param {string} post.post_category.slug - slug категории
- * @returns {string} - URL поста
+ * Генерирует URL для поста
+ * - Если slug содержит "/" (например "coins/bitcoin-sv") — URL без категории: /slug
+ * - Если slug простой (например "bitcoin-sv") — URL с категорией: /category_slug/slug
  */
 export function getPostUrl(post) {
-  if (!post?.post_category?.slug || !post?.slug) {
+  if (!post?.slug) {
     return '#';
   }
-
-  // Если у поста есть ticker, ВСЕГДА используем категорию "calculator"
-  // независимо от реальной категории поста
-  if (post.ticker) {
-    return `/calculator/${post.ticker}/${post.slug}`;
+  if (post.slug.includes('/')) {
+    return `/${post.slug}`;
   }
-
-  // Если ticker отсутствует, используем реальную категорию поста
+  if (!post?.post_category?.slug) {
+    return '#';
+  }
   return `/${post.post_category.slug}/${post.slug}`;
 }
 

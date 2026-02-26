@@ -16,23 +16,14 @@ export async function getServerSideProps({ params, req }) {
 
   const API_BASE = "http://127.0.0.1:1337";
 
-  // Определяем, какой формат URL используется:
-  // params.params = [slug] -> /category/slug (без ticker)
-  // params.params = [ticker, slug] -> /category/ticker/slug (с ticker)
-
+  // URL может быть двух форматов:
+  // 1) /category/slug — для постов с простым slug (bitcoin-sv)
+  // 2) /path/with/slashes — для постов со slug, содержащим "/" (coins/bitcoin-sv)
   const urlParams = params.params || [];
-  let ticker = null;
-  let slug = null;
+  const fullPathSlug = [params.category_slug, ...urlParams].join('/');
+  const shortSlug = urlParams.length ? urlParams.join('/') : null;
 
-  if (urlParams.length === 1) {
-    // Формат: /category/slug
-    slug = urlParams[0];
-  } else if (urlParams.length === 2) {
-    // Формат: /category/ticker/slug
-    ticker = urlParams[0];
-    slug = urlParams[1];
-  } else {
-    // Неверный формат URL
+  if (!shortSlug && !fullPathSlug) {
     return {
       props: {
         review: null,
@@ -45,89 +36,40 @@ export async function getServerSideProps({ params, req }) {
     };
   }
 
-  // ВАЖНО: Сначала проверяем, нужен ли редирект
-  // Если это формат /category/slug (без ticker), проверим есть ли у поста ticker
-  if (urlParams.length === 1) {
-    // Делаем быстрый запрос чтобы узнать, есть ли ticker у этого поста
-    try {
-      const checkPostResponse = await axios(
-        `${API_BASE}/api/posts`,
-        {
-          params: {
-            fields: ['slug', 'ticker'],
-            populate: 'post_category',
-            "filters[slug][$eq]": slug,
-            "filters[post_category][slug][$eq]": params.category_slug,
+  // Сначала ищем пост со slug = fullPath (посты с "/" в slug используют полный путь)
+  // Затем пост/ревью с shortSlug + category (обычный формат)
+  const [postByFullSlugResponse, postByCategorySlugResponse, reviewResponse] = await Promise.all([
+    axios(`${API_BASE}/api/posts`, {
+      params: {
+        populate: {
+          meta: "*",
+          author: { avatar: "*" },
+          media: "*",
+          post_category: "*",
+          comments: {
+            populate: "author.avatar,comment.attachments,comment.author.avatar,attachments",
+            sort: "analogue_date:desc,commented_at:desc",
           },
-        }
-      );
-
-      if (checkPostResponse.data?.data?.length) {
-        const postData = checkPostResponse.data.data[0];
-        const postTicker = postData.attributes?.ticker;
-
-        // Если у поста есть ticker, делаем 301 редирект на /calculator/ticker/slug
-        if (postTicker) {
-          return {
-            redirect: {
-              destination: `/calculator/${postTicker}/${slug}`,
-              permanent: true, // 301 редирект
-            },
-          };
-        }
-      }
-    } catch (error) {
-      console.error('Error checking post ticker:', error);
-    }
-  }
-
-  // Если это формат /category/ticker/slug, но category НЕ "calculator"
-  // и у поста есть ticker - редиректим на /calculator/ticker/slug
-  if (urlParams.length === 2 && params.category_slug !== 'calculator') {
-    return {
-      redirect: {
-        destination: `/calculator/${ticker}/${slug}`,
-        permanent: true, // 301 редирект
-      },
-    };
-  }
-
-  // Строим фильтры для запроса
-  const postFilters = {
-    "filters[slug][$eq]": slug,
-  };
-
-  // Если есть ticker, добавляем его в фильтр и НЕ фильтруем по категории
-  // потому что посты с ticker могут быть в любой категории
-  if (ticker) {
-    postFilters["filters[ticker][$eq]"] = ticker;
-  } else {
-    // Если ticker нет, фильтруем по реальной категории
-    postFilters["filters[post_category][slug][$eq]"] = params.category_slug;
-  }
-
-  const [postResponse, reviewResponse] = await Promise.all([
-    axios(
-      `${API_BASE}/api/posts`,
-      {
-        params: {
-          populate: {
-            fields: "meta",
-            author: {
-              avatar: "*",
-            },
-            media: "*",
-            post_category: "*",
-            comments: {
-              populate:
-                "author.avatar,comment.attachments,comment.author.avatar,attachments",
-              sort: "analogue_date:desc,commented_at:desc",
-            },
-          },
-          ...postFilters,
         },
-      }
-    ),
+        "filters[slug][$eq]": fullPathSlug,
+      },
+    }),
+    axios(`${API_BASE}/api/posts`, {
+      params: {
+        populate: {
+          meta: "*",
+          author: { avatar: "*" },
+          media: "*",
+          post_category: "*",
+          comments: {
+            populate: "author.avatar,comment.attachments,comment.author.avatar,attachments",
+            sort: "analogue_date:desc,commented_at:desc",
+          },
+        },
+        "filters[slug][$eq]": shortSlug,
+        "filters[post_category][slug][$eq]": params.category_slug,
+      },
+    }),
     axios(
       `${API_BASE}/api/reviews`,
       {
@@ -150,12 +92,16 @@ export async function getServerSideProps({ params, req }) {
               sort: "analogue_date:desc,commented_at:desc",
             },
           },
-          "filters[slug][$eq]": slug,
+          "filters[slug][$eq]": shortSlug,
           "filters[review_category][slug][$eq]": params.category_slug
         },
       }
     ),
   ]);
+
+  const postResponse = postByFullSlugResponse.data?.data?.length
+    ? postByFullSlugResponse
+    : postByCategorySlugResponse;
 
   if (postResponse.data?.data?.length) {
     const payload = new PostModel(postResponse.data.data[0]);
@@ -164,7 +110,7 @@ export async function getServerSideProps({ params, req }) {
     if (post) {
       const requestParams = {
         populate: "media,post_category",
-        "filters[slug][$ne]": slug,
+        "filters[slug][$ne]": post.slug,
         "pagination[pageSize]": 3,
       };
       const [postPageResponse, gteResponse, lteResponse] = await Promise.all([

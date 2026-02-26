@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import clsx from "clsx";
 import axios from "axios";
+import { getPostUrl } from "@/utils/getPostUrl";
 
 const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
   const [quizOptions, setQuizOptions] = useState([]);
@@ -108,11 +109,13 @@ const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
           </div>
           <div className="content">
             {recentPosts.map((item) => {
-              // Определяем тип контента и формируем правильную ссылку
               const isPost = item.attributes.post_category?.data;
               const href = isPost
-                ? `/${item.attributes.post_category.data.attributes.slug}/${item.attributes.slug}`
-                : `/${item.attributes.slug}`; // Для страниц используем прямой slug
+                ? getPostUrl({
+                    slug: item.attributes.slug,
+                    post_category: item.attributes.post_category?.data?.attributes,
+                  })
+                : `/${item.attributes.slug}`;
               
               return (
                 <article key={item.id} className="desk-actual">
