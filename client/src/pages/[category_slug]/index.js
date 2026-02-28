@@ -222,12 +222,6 @@ export default function ExchangePage({
           <div id="wysiwyg" class="wysiwyg-content">
             <h1>{customPage.title}</h1>
 
-            {customPage.author ? (
-              <p style={{ opacity: 0.7, marginTop: "8px" }}>
-                Автор: {customPage.author.name}
-              </p>
-            ) : null}
-
             {customPage.image ? (
               <p>
                 <img

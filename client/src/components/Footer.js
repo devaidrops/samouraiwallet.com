@@ -12,11 +12,11 @@ const Footer = ({ menu, copyrightMenu, generalOption }) => {
                 {generalOption?.site_logo ? (
                   <img
                     src={generalOption.site_logo}
-                    alt="Криптотех.ру"
+                    alt="Coin Explorers"
                     style={{ height: '40px', width: 'auto' }}
                   />
                 ) : (
-                  'Криптотех.ру'
+                  'Coin Explorers'
                 )}
               </Link>
             </div>
