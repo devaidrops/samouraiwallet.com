@@ -1,11 +1,10 @@
 export async function getServerSideProps({ res }) {
 
-  const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
-  const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://cryptoteh.ru";
-  const NEXT_PUBLIC_POSTS_PRIORITY =
-    process.env.NEXT_PUBLIC_POSTS_PRIORITY || 0.6;
-  const NEXT_PUBLIC_REVIEWS_PRIORITY =
-    process.env.NEXT_PUBLIC_REVIEWS_PRIORITY || 0.8;
+  const STRAPI_URL = process.env.NEXT_PUBLIC_API_ENDPOINT || process.env.NEXT_PUBLIC_STRAPI_URL || "http://127.0.0.1:1337";
+  const SITE_URL = process.env.NEXT_PUBLIC_APP_URL || "https://coinexplorers.com";
+  const POSTS_PRIORITY = process.env.NEXT_PUBLIC_POSTS_PRIORITY || 0.6;
+  const REVIEWS_PRIORITY = process.env.NEXT_PUBLIC_REVIEWS_PRIORITY || 0.8;
+  const PAGES_PRIORITY = process.env.NEXT_PUBLIC_PAGES_PRIORITY || 0.5;
 
   const fetchAllFromStrapi = async (url, hasOriginalFilter) => {
     let allData = [];
@@ -29,12 +28,18 @@ export async function getServerSideProps({ res }) {
 
       const result = await response.json();
 
-      if (result.data) {
-        allData = [...allData, ...result.data];
-        totalItems = result.meta.pagination.total;
-      } else {
-        break;
+      const data = Array.isArray(result.data) ? result.data : [];
+      const total = result?.meta?.pagination?.total;
+
+      if (data.length > 0) {
+        allData = [...allData, ...data];
       }
+      if (typeof total === "number") {
+        totalItems = total;
+      }
+
+      if (data.length < pageSize) break;
+      if (totalItems > 0 && allData.length >= totalItems) break;
 
       page++;
     } while (allData.length < totalItems);
@@ -43,22 +48,30 @@ export async function getServerSideProps({ res }) {
   };
 
   try {
-    const posts = await fetchAllFromStrapi(
-      `${NEXT_PUBLIC_STRAPI_URL}/api/posts?filters[post_category][$notNull]=true&populate=*&sort[publishedAt]=asc`,
-      true
-    );
-
-    const reviews = await fetchAllFromStrapi(
-      `${NEXT_PUBLIC_STRAPI_URL}/api/reviews?filters[review_category][$notNull]=true&populate=*&sort[publishedAt]=asc`,
-      true
-    );
+    const [posts, reviews, pagesResult] = await Promise.all([
+      fetchAllFromStrapi(
+        `${STRAPI_URL}/api/posts?filters[post_category][$notNull]=true&populate=*&sort[publishedAt]=asc`,
+        true
+      ),
+      fetchAllFromStrapi(
+        `${STRAPI_URL}/api/reviews?filters[review_category][$notNull]=true&populate=*&sort[publishedAt]=asc`,
+        true
+      ),
+      fetchAllFromStrapi(`${STRAPI_URL}/api/pages?populate=*&sort[publishedAt]=desc`, false).catch((err) => {
+        console.warn("Sitemap: pages fetch failed, omitting pages:", err?.message || err);
+        return [];
+      }),
+    ]);
+    const pages = pagesResult || [];
 
     let text = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n`;
 
     posts.forEach((post) => {
+      const cat = post.attributes.post_category?.data?.attributes;
+      if (!cat?.slug || !post.attributes.slug) return;
       text += `\t<url>\n`;
-      text += `\t\t<priority>${NEXT_PUBLIC_POSTS_PRIORITY}</priority>\n`;
-      text += `\t\t<loc>${NEXT_PUBLIC_BASE_URL}/${post.attributes.post_category.data.attributes.slug}/${post.attributes.slug}/</loc>\n`;
+      text += `\t\t<priority>${POSTS_PRIORITY}</priority>\n`;
+      text += `\t\t<loc>${SITE_URL}/${cat.slug}/${post.attributes.slug}/</loc>\n`;
       text += `\t\t<lastmod>${
         (
           post.attributes.publishedAt?.toString() ?? new Date().toISOString()
@@ -68,12 +81,28 @@ export async function getServerSideProps({ res }) {
     });
 
     reviews.forEach((review) => {
+      const cat = review.attributes.review_category?.data?.attributes;
+      if (!cat?.slug || !review.attributes.slug) return;
       text += `\t<url>\n`;
-      text += `\t\t<priority>${NEXT_PUBLIC_REVIEWS_PRIORITY}</priority>\n`;
-      text += `\t\t<loc>${NEXT_PUBLIC_STRAPI_URL_S}/${review.attributes.review_category.data.attributes.slug}/${review.attributes.slug}/</loc>\n`;
+      text += `\t\t<priority>${REVIEWS_PRIORITY}</priority>\n`;
+      text += `\t\t<loc>${SITE_URL}/${cat.slug}/${review.attributes.slug}/</loc>\n`;
       text += `\t\t<lastmod>${
         (
           review.attributes.publishedAt?.toString() ?? new Date().toISOString()
+        ).split("T")[0]
+      }</lastmod>\n`;
+      text += `\t</url>\n`;
+    });
+
+    pages.forEach((page) => {
+      const slug = page.attributes?.slug;
+      if (!slug) return;
+      text += `\t<url>\n`;
+      text += `\t\t<priority>${PAGES_PRIORITY}</priority>\n`;
+      text += `\t\t<loc>${SITE_URL}/${slug}/</loc>\n`;
+      text += `\t\t<lastmod>${
+        (
+          page.attributes.publishedAt?.toString() ?? new Date().toISOString()
         ).split("T")[0]
       }</lastmod>\n`;
       text += `\t</url>\n`;
@@ -87,7 +116,12 @@ export async function getServerSideProps({ res }) {
 
     return { props: {} };
   } catch (error) {
-    console.error("Sitemap Generation Error:", error);
+    console.error("Sitemap Generation Error:", error?.message || error);
+    if (res && !res.writableEnded) {
+      res.status(500);
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.end(`Sitemap error: ${error?.message || "Unknown error"}`);
+    }
     return { props: {} };
   }
 }

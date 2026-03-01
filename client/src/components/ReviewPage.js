@@ -258,7 +258,7 @@ export default function ReviewPage({ review, generalOption, host }) {
         <meta name="description" content={review.meta.description} />
         <link
           rel="canonical"
-          href={`${baseClientUrl}/${review.review_category.slug}/${review.slug}/`}
+          href={`${baseClientUrl}/${review.review_category.slug}/${review.slug}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

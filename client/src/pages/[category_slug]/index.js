@@ -1,5 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
+import { baseClientUrl } from "@/constants/constants";
 import BlogCategoryPage from "@/components/BlogCategoryPage";
 import NotFoundPage from "@/components/NotFoundPage";
 import ReviewCategoryPage from "@/components/ReviewCategoryPage";
@@ -188,6 +189,7 @@ export async function getServerSideProps({ params, query, req }) {
       page,
       generalOption,
       customPage,
+      customPageSlug: customPage ? slug : null,
     },
   };
 }
@@ -202,6 +204,7 @@ export default function ExchangePage({
   page,
   generalOption,
   customPage,
+  customPageSlug,
 }) {
   // 1. render the new page if it is one
   if (!reviewCategory && !postCategory && customPage) {
@@ -215,6 +218,9 @@ export default function ExchangePage({
           </title>
           {customPage.metaDescription ? (
             <meta name="description" content={customPage.metaDescription} />
+          ) : null}
+          {customPageSlug ? (
+            <link rel="canonical" href={`${baseClientUrl}/${customPageSlug}`} />
           ) : null}
         </Head>
 

@@ -85,24 +85,7 @@ const Header = ({ menu, generalOption }) => {
             </div>
 
             <ul>
-              <li className="nav-item   dropdown ">
-                <Link
-                  className={clsx(
-                    "nav-link dropdown-toggle js-dropdown-toggle",
-                    activeMobileMenu === 0 && "visible"
-                  )}
-                  href="#"
-                  onClick={(e) => handleActiveMobileMenu(e, 0)}
-                >
-                  <span>Navigation</span>
-                  <img src="/img/icon-dropdown.svg" alt="" />
-                </Link>
-                <div
-                  className={clsx(
-                    "dropdown-menu",
-                    activeMobileMenu === 0 ? "!block" : "!hidden"
-                  )}
-                >
+              <li className="nav-item">
                   {menu.items.data.map((item) => (
                     <Link
                       key={item.id}
@@ -113,36 +96,7 @@ const Header = ({ menu, generalOption }) => {
                       {item.attributes.title}
                     </Link>
                   ))}
-                </div>
               </li>
-              {/*<li className="nav-item   dropdown ">*/}
-              {/*  <a className="nav-link dropdown-toggle js-dropdown-toggle visible" href="#">*/}
-              {/*    <span>Tools</span>*/}
-              {/*    <img src="/img/icon-dropdown.svg" alt="" />*/}
-              {/*  </a>*/}
-              {/*  <div className="dropdown-menu" style="display: none;">*/}
-              {/*    <Link className="dropdown-item " href="/instruments/ico">ICO</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/airdrop">Airdrop</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/farming">Farming</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/crypto">Cryptocurrencies</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/mayning">Mining</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/steyking">Staking</Link>*/}
-              {/*  </div>*/}
-              {/*</li>*/}
-              {/*<li className="nav-item   dropdown ">*/}
-              {/*  <a className="nav-link dropdown-toggle js-dropdown-toggle visible" href="#">*/}
-              {/*    <span>Useful information</span>*/}
-              {/*    <img src="/img/icon-dropdown.svg" alt="" />*/}
-              {/*  </a>*/}
-              {/*  <div className="dropdown-menu" style="display: block;">*/}
-              {/*    <Link className="dropdown-item " href="/articles">Articles</Link>*/}
-              {/*    <Link className="dropdown-item " href="/pages/vakansii">Careers</Link>*/}
-              {/*    <Link className="dropdown-item " href="/interpretations">Investor glossary</Link>*/}
-              {/*    <Link className="dropdown-item " href="/portfolio">Investment portfolios</Link>*/}
-              {/*    <Link className="dropdown-item " href="/apps">Exchange apps</Link>*/}
-              {/*    <Link className="dropdown-item " href="/trades">How to trade on a crypto exchange?</Link>*/}
-              {/*  </div>*/}
-              {/*</li>*/}
             </ul>
           </div>
         </div>

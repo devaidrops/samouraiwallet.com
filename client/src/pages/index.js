@@ -166,7 +166,7 @@ export default function Home({
             page > 1 ? ` (${page})` : ""
           }`}
         />
-        <link rel="canonical" href={baseClientUrl} />
+        <link rel="canonical" href={baseClientUrl.replace(/\/$/, "")} />
       </Head>
       <div className="content-inside articles-show">
         <div className="content-top">
@@ -176,7 +176,7 @@ export default function Home({
               itemScope=""
               itemType="https://schema.org/ListItem"
             >
-              <link href={baseClientUrl} itemProp="item" />
+              <link href={baseClientUrl.replace(/\/$/, "")} itemProp="item" />
               <meta itemProp="name" content="Home" />
               <meta itemProp="position" content="1" />
             </div>

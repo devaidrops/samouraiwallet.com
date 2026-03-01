@@ -55,7 +55,7 @@ export default function ReviewCategoryPage({
         />
         <link
           rel="canonical"
-          href={`${baseClientUrl}/${reviewCategory.slug}/`}
+          href={`${baseClientUrl}/${reviewCategory.slug}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

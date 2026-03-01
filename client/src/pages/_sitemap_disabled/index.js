@@ -89,7 +89,7 @@ export default function SitemapPage({ links, pageCount, page, generalOption }) {
           rel="canonical"
           href={`${
             process.env.NEXT_PUBLIC_APP_URL || "http://127.0.0.1:3000"
-          }/sitemap/`}
+          }/sitemap`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>

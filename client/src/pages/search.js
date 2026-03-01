@@ -143,7 +143,7 @@ export default function Search({
           content={generalOption.allow_indexation ? robotsTxt : "noindex"}
         />
         <meta name="description" content={`${searchPage.meta.description}`} />
-        <link rel="canonical" href={`${baseClientUrl}/search/`} />
+        <link rel="canonical" href={`${baseClientUrl}/search`} />
       </Head>
       <SearchResult
         reviews={reviews}

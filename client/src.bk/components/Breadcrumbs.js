@@ -22,10 +22,10 @@ const Breadcrumbs = ({ items, className }) => {
           >
             {index + 1 === items.length && <link itemProp="item" href={`${baseClientUrl}${item.url}`} />}
             {index + 1 === items.length ? (
-              <h1
+              <span
                 className="inline !my-0 !leading-none !font-normal !text-inherit breadcrumb-last-text"
                 itemProp="name"
-              >{item.title}</h1>
+              >{item.title}</span>
             ) : (
               <Link href={item.url} className="text-url" itemProp="item">
                 <span itemProp="name">{item.title}</span>

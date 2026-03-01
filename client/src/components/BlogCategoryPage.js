@@ -38,7 +38,7 @@ export default function BlogCategoryPage({
           }`}
         />
         <meta name="author" content="" />
-        <link rel="canonical" href={`${baseClientUrl}/${postCategory.slug}/`} />
+        <link rel="canonical" href={`${baseClientUrl}/${postCategory.slug}`} />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

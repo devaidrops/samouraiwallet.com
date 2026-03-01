@@ -201,7 +201,7 @@ export default function BlogPostPage({
         <meta name="author" content="Coin Explorers Team" />
         <link
           rel="canonical"
-          href={`${baseClientUrl}${getPostUrl(post)}/`}
+          href={`${baseClientUrl}${getPostUrl(post)}`}
         />
         <link rel="icon" href="/favicon.ico" />
       </Head>
