@@ -13,7 +13,6 @@ export default function CoinPriceWidget({
   const [usdAmount, setUsdAmount] = useState("");
   const [isCoinPrimary, setIsCoinPrimary] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
 
   const displaySymbol = useMemo(() => {
     if (coinSymbol && typeof coinSymbol === "string" && coinSymbol.trim()) {
@@ -34,7 +33,6 @@ export default function CoinPriceWidget({
 
     async function loadPrice() {
       setLoading(true);
-      setError(null);
 
       try {
         const response = await fetch(
@@ -45,20 +43,20 @@ export default function CoinPriceWidget({
         );
 
         if (!response.ok) {
-          throw new Error(`Request failed with status ${response.status}`);
+          setPrice(null);
+          return;
         }
 
-        const data = await response.json();
-        if (!data || typeof data.usd !== "number") {
-          throw new Error("Invalid response payload");
+        const data = await response.json().catch(() => null);
+        if (data && typeof data.usd === "number") {
+          setPrice(data.usd);
+          setCoinAmount("1");
+          setUsdAmount(formatNumberForInput(data.usd, 6));
+        } else {
+          setPrice(null);
         }
-
-        setPrice(data.usd);
-        setCoinAmount("1");
-        setUsdAmount(formatNumberForInput(data.usd, 6));
       } catch (err) {
         if (err.name !== "AbortError") {
-          setError("Ошибка");
           setPrice(null);
         }
       } finally {
@@ -76,6 +74,11 @@ export default function CoinPriceWidget({
   }, [apiBase, coinGeckoId]);
 
   if (!coinGeckoId) {
+    return null;
+  }
+
+  // Не показывать блок, пока идёт загрузка или нет данных по цене от CoinGecko
+  if (loading || price === null) {
     return null;
   }
 
@@ -138,13 +141,9 @@ export default function CoinPriceWidget({
   return (
     <div className="coin-price-widget" aria-live="polite">
       <div className="coin-price-widget__rate">
-        1 {displaySymbol} ={" "}
-        {loading ? "..." : price !== null ? `$${formatNumber(price, 6)}` : "-"}
+        1 {displaySymbol} = ${formatNumber(price, 6)}
       </div>
-      {error ? (
-        <div className="coin-price-widget__error">{error}</div>
-      ) : (
-        <div className="coin-price-widget__cards">
+      <div className="coin-price-widget__cards">
           <div className="coin-price-widget__column">
             <div className="coin-price-widget__label">{leftCurrency.label}</div>
             <div className="coin-price-widget__card">
@@ -196,9 +195,19 @@ export default function CoinPriceWidget({
             </div>
           </div>
         </div>
-      )}
 
       <style jsx>{`
+        @keyframes coin-price-widget-enter {
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
         .coin-price-widget {
           margin: 16px auto;
           padding: 18px 20px 22px;
@@ -208,6 +217,7 @@ export default function CoinPriceWidget({
           font-family: inherit;
           color: var(--mainbrand-black);
           box-shadow: 0 6px 18px rgba(17, 24, 39, 0.08);
+          animation: coin-price-widget-enter 0.5s ease-out forwards;
         }
 
         .coin-price-widget__rate {
@@ -245,7 +255,7 @@ export default function CoinPriceWidget({
         }
 
         .coin-price-widget__currency {
-          background: linear-gradient(180deg, #f5a623 0%, #f7931a 90%);
+          background:linear-gradient(180deg, #64c9bd 0%, #77d1c6 90%);
           color: #fff;
           padding: 10px 16px;
           font-size: 15px;
@@ -276,7 +286,7 @@ export default function CoinPriceWidget({
         .coin-price-widget__swap {
           border: none;
           background: transparent;
-          color: #f7931a;
+          color: #60b7ad;
           font-size: 13px;
           font-weight: 600;
           cursor: pointer;

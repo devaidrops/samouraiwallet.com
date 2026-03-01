@@ -167,42 +167,6 @@ export default function Home({
           }`}
         />
         <link rel="canonical" href={baseClientUrl} />
-        {/* Favicon уже добавлен в _document.js */}
-        {/* Yandex.Metrika counter */}
-        <script type="text/javascript">
-          {`
-      (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-          if (document.scripts[j].src === r) { return; }
-        }
-        k=e.createElement(t),
-        a=e.getElementsByTagName(t)[0],
-        k.async=1,
-        k.src=r,
-        a.parentNode.insertBefore(k,a)
-      })
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-      ym(101050218, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-      });
-    `}
-        </script>
-        <noscript>
-          <div>
-            <img
-              src="https://mc.yandex.ru/watch/101050218"
-              style={{ position: "absolute", left: "-9999px" }}
-              alt=""
-            />
-          </div>
-        </noscript>
-        {/* /Yandex.Metrika counter */}
       </Head>
       <div className="content-inside articles-show">
         <div className="content-top">
@@ -213,7 +177,7 @@ export default function Home({
               itemType="https://schema.org/ListItem"
             >
               <link href={baseClientUrl} itemProp="item" />
-              <meta itemProp="name" content="Главная" />
+              <meta itemProp="name" content="Home" />
               <meta itemProp="position" content="1" />
             </div>
           </div>
@@ -349,7 +313,7 @@ export default function Home({
           </table>
         </div>
         )}
-        
+
         {pageCount > 1 && (
           <Paginator
             currentPage={currentPage}

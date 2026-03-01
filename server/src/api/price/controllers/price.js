@@ -1,4 +1,7 @@
-const axios = require('axios');
+// Маппинг устаревших/альтернативных id на актуальные в CoinGecko API
+const COINGECKO_ID_ALIASES = {
+  'bitcoin-sv': 'bitcoin-cash-sv',
+};
 
 module.exports = {
   async index(ctx) {
@@ -9,32 +12,22 @@ module.exports = {
     }
 
     const normalizedCoinId = coinId.trim().toLowerCase();
+    const coingeckoId = COINGECKO_ID_ALIASES[normalizedCoinId] ?? normalizedCoinId;
 
     try {
-      const response = await axios.get(
-        'https://api.coingecko.com/api/v3/simple/price',
-        {
-          params: { ids: normalizedCoinId, vs_currencies: 'usd' },
-          headers: {
-            'x-cg-demo-api-key': process.env.COINGECKO_API_KEY,
-          },
-          timeout: 5000,
-        }
-      );
-
-      const usd = response.data?.[normalizedCoinId]?.usd;
-
-      if (typeof usd !== 'number') {
-        return ctx.notFound(
-          `Coin "${normalizedCoinId}" was not found on CoinGecko.`
-        );
-      }
+      const usd = await strapi.service('api::price.price').getPrice(coingeckoId);
 
       ctx.body = {
         coinId: normalizedCoinId,
         usd,
       };
     } catch (error) {
+      if (error.name === 'NotFoundError') {
+        return ctx.notFound(
+          `Coin "${normalizedCoinId}" was not found on CoinGecko.`
+        );
+      }
+
       strapi.log.error('CoinGecko price fetch failed', {
         coinId: normalizedCoinId,
         error: error.message,

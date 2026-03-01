@@ -116,7 +116,7 @@ const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
                     post_category: item.attributes.post_category?.data?.attributes,
                   })
                 : `/${item.attributes.slug}`;
-              
+
               return (
                 <article key={item.id} className="desk-actual">
                   <div className="text-9">
@@ -144,7 +144,7 @@ const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
               src="/img/image-209.png"
               alt="image 209"
             />
-            <div className="text laptop-desktoph2-sb-30">Опрос</div>
+            <div className="text laptop-desktoph2-sb-30">Survey</div>
           </div>
           <div className="content-1 content-3">
             <div className="x-3">
@@ -184,7 +184,7 @@ const Sidebar = ({ appId, data, recentReviews, recentPosts }) => {
                     <input type="hidden" name="poll_id" value="17" />
                     <div className="align-center">
                       <button type="submit" className="btn">
-                        Голосовать
+                      Vote
                       </button>
                     </div>
                   </form>

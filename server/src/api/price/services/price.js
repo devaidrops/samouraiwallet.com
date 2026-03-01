@@ -1,7 +1,15 @@
-const TTL_MS = 5 * 60 * 1000; // 5 minutes
+const TTL_MS = 1 * 60 * 1000; // 1 minute
 const cache = new Map();
 
 const isFresh = (entry) => entry && entry.expiresAt > Date.now();
+
+function getCoinGeckoHeaders() {
+  const key = process.env.COINGECKO_API_KEY;
+  if (key && typeof key === 'string' && key.trim()) {
+    return { 'x-cg-demo-api-key': key.trim() };
+  }
+  return {};
+}
 
 module.exports = () => ({
   async getPrice(coinId) {
@@ -10,11 +18,12 @@ module.exports = () => ({
       return cached.value;
     }
 
-    const response = await fetch(
-      `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(
-        coinId
-      )}&vs_currencies=usd`
-    );
+    const url = `https://api.coingecko.com/api/v3/simple/price?ids=${encodeURIComponent(
+      coinId
+    )}&vs_currencies=usd`;
+    const response = await fetch(url, {
+      headers: getCoinGeckoHeaders(),
+    });
 
     if (!response.ok) {
       throw new Error(

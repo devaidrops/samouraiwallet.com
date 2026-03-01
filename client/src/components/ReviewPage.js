@@ -261,41 +261,6 @@ export default function ReviewPage({ review, generalOption, host }) {
           href={`${baseClientUrl}/${review.review_category.slug}/${review.slug}/`}
         />
         <link rel="icon" href="/favicon.ico" />
-        {/* Yandex.Metrika counter */}
-        <script type="text/javascript">
-          {`
-      (function(m,e,t,r,i,k,a){
-        m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-        m[i].l=1*new Date();
-        for (var j = 0; j < document.scripts.length; j++) {
-          if (document.scripts[j].src === r) { return; }
-        }
-        k=e.createElement(t),
-        a=e.getElementsByTagName(t)[0],
-        k.async=1,
-        k.src=r,
-        a.parentNode.insertBefore(k,a)
-      })
-      (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-      ym(101050218, "init", {
-        clickmap:true,
-        trackLinks:true,
-        accurateTrackBounce:true,
-        webvisor:true
-      });
-    `}
-        </script>
-        <noscript>
-          <div>
-            <img
-              src="https://mc.yandex.ru/watch/101050218"
-              style={{ position: "absolute", left: "-9999px" }}
-              alt=""
-            />
-          </div>
-        </noscript>
-        {/* /Yandex.Metrika counter */}
       </Head>
       {generalOption?.bottom_icons?.length > 0 && (
         <div className="bottom-mobile-menu">
@@ -309,7 +274,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                 <span>{generalOption.bottom_icons[0].label}</span>
               </Link>
             )}
-            
+
             {generalOption.bottom_icons[1]?.icon && generalOption.bottom_icons[1]?.label && (
               <Link href="#brokers-show__feedback">
                 <img
@@ -334,7 +299,7 @@ export default function ReviewPage({ review, generalOption, host }) {
           <Breadcrumbs
             className="!pb-0"
             items={[
-              { url: "/", title: "Главная" },
+              { url: "/", title: "Home" },
               {
                 url: `/${review.review_category.slug}`,
                 title: review.review_category.title,

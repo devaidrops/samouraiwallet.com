@@ -130,7 +130,7 @@ const Sidebar = ({ appId, data, recentReviews }) => {
               src="/img/image-209.png"
               alt="image 209"
             />
-            <div className="text laptop-desktoph2-sb-30">Опрос</div>
+            <div className="text laptop-desktoph2-sb-30">Survey</div>
           </div>
           <div className="content-1 content-3">
             <div className="x-3">
@@ -170,8 +170,7 @@ const Sidebar = ({ appId, data, recentReviews }) => {
                     <input type="hidden" name="poll_id" value="17" />
                     <div className="align-center">
                       <button type="submit" className="btn">
-                        Голосовать
-                      </button>
+                      Vote                      </button>
                     </div>
                   </form>
                 )}
