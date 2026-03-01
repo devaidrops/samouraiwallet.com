@@ -40,7 +40,7 @@ export const generateSummaryChartOption = (rating) => {
             total: {
               show: true,
               showAlways: false,
-              label: 'Общая оценка',
+              label: 'Overall rating',
 
               fontSize: '14px',
               fontFamily: '"Inter", Helvetica',

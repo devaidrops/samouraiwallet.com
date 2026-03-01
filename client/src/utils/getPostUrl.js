@@ -1,7 +1,7 @@
 /**
- * Генерирует URL для поста
- * - Если slug содержит "/" (например "coins/bitcoin-sv") — URL без категории: /slug
- * - Если slug простой (например "bitcoin-sv") — URL с категорией: /category_slug/slug
+ * Generates URL for a post
+ * - If slug contains "/" (e.g. "coins/bitcoin-sv") — URL without category: /slug
+ * - If slug is simple (e.g. "bitcoin-sv") — URL with category: /category_slug/slug
  */
 export function getPostUrl(post) {
   if (!post?.slug) {

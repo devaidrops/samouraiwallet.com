@@ -10,10 +10,10 @@ import { PostCategoryModel } from "@/models/post-category.model";
 import { ReviewCategoryModel } from "@/models/review-category.model";
 import { ReviewModel } from "@/models/review.model";
 
-// твой API
+// your API
 const API_BASE = "http://127.0.0.1:1337";
 
-// простой конвертер Strapi Rich text (Blocks) -> html
+// simple Strapi Rich text (Blocks) -> html converter
 function blocksToHtml(blocks) {
   if (!Array.isArray(blocks)) return "";
   return blocks
@@ -41,10 +41,10 @@ export async function getServerSideProps({ params, query, req }) {
   let postCategory = null;
   let posts = [];
 
-  // если это не категория и не обзор — сюда положим нашу страницу
+  // if not category and not review — we'll put our page here
   let customPage = null;
 
-  // 1. загрузим ВСЁ, что нужно, параллельно
+  // 1. load everything we need in parallel
   const [
     postCategoryResponse,
     reviewsResponse,
@@ -62,10 +62,10 @@ export async function getServerSideProps({ params, query, req }) {
         "filters[slug][$eq]": slug,
       },
     }),
-    // вот это теперь всегда выполняется
+    // this always runs now
     axios(`${API_BASE}/api/general-option`, {
       params: {
-        // можно одной строкой, главное без переносов
+        // can be one line, no line breaks
         populate:
           "review_options.widget_min_deposit_withdrawal,review_options.widget_trading_volume,review_options.widget_verification,review_options.widget_spot_commission,review_options.widget_futures_commission,review_options.company_info_widgets.icon,review_background,site_logo",
       },
@@ -203,7 +203,7 @@ export default function ExchangePage({
   generalOption,
   customPage,
 }) {
-  // 1. отрисовываем новую страницу, если это она
+  // 1. render the new page if it is one
   if (!reviewCategory && !postCategory && customPage) {
     return (
       <>
@@ -242,7 +242,7 @@ export default function ExchangePage({
   }
 
 
-  // 2. старое поведение
+  // 2. legacy behaviour
   if (!reviewCategory && !postCategory) {
     return <NotFoundPage />;
   }

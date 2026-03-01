@@ -6,16 +6,16 @@ const SearchResult = ({ posts, reviews, searchKey, searchPage }) => {
   const totalSearchResults = posts.length + reviews.length;
 
   const totalSearchResultsText = useMemo(() => totalSearchResults > 4
-    ? "материалов" : totalSearchResults > 1 ? "материала" : "материал", [totalSearchResults]);
+    ? "items" : totalSearchResults > 1 ? "items" : "item", [totalSearchResults]);
 
   return (
     <div className="content-inside search-index">
       <div className="content-top">
 
-        <h1>Результаты поиска для: {searchKey}</h1>
+        <h1>Search results for: {searchKey}</h1>
 
         <div className="page-desc laptop-desktoptext-m-15-reg">
-          Найдено {totalSearchResults} {totalSearchResultsText}
+          Found {totalSearchResults} {totalSearchResultsText}
         </div>
       </div>
 
@@ -50,9 +50,9 @@ const SearchResult = ({ posts, reviews, searchKey, searchPage }) => {
           </>
         ) : (
           <>
-            <h3>Ничего не найдено</h3>
+            <h3>Nothing found</h3>
             <div className="notice-text">
-              Проверьте корректность запроса или обновите страницу
+              Check your query or refresh the page
             </div>
           </>
         )}

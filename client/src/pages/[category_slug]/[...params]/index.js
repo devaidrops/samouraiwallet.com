@@ -16,9 +16,9 @@ export async function getServerSideProps({ params, req }) {
 
   const API_BASE = "http://127.0.0.1:1337";
 
-  // URL может быть двух форматов:
-  // 1) /category/slug — для постов с простым slug (bitcoin-sv)
-  // 2) /path/with/slashes — для постов со slug, содержащим "/" (coins/bitcoin-sv)
+  // URL can be in two formats:
+  // 1) /category/slug — for posts with simple slug (bitcoin-sv)
+  // 2) /path/with/slashes — for posts with slug containing "/" (coins/bitcoin-sv)
   const urlParams = params.params || [];
   const fullPathSlug = [params.category_slug, ...urlParams].join('/');
   const shortSlug = urlParams.length ? urlParams.join('/') : null;
@@ -36,8 +36,8 @@ export async function getServerSideProps({ params, req }) {
     };
   }
 
-  // Сначала ищем пост со slug = fullPath (посты с "/" в slug используют полный путь)
-  // Затем пост/ревью с shortSlug + category (обычный формат)
+  // First find post with slug = fullPath (posts with "/" in slug use full path)
+  // Then post/review with shortSlug + category (standard format)
   const [postByFullSlugResponse, postByCategorySlugResponse, reviewResponse] = await Promise.all([
     axios(`${API_BASE}/api/posts`, {
       params: {

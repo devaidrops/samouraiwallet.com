@@ -77,7 +77,7 @@ export default function CoinPriceWidget({
     return null;
   }
 
-  // Не показывать блок, пока идёт загрузка или нет данных по цене от CoinGecko
+  // Do not show the block while loading or when there is no price data from CoinGecko
   if (loading || price === null) {
     return null;
   }
@@ -109,11 +109,11 @@ export default function CoinPriceWidget({
   };
 
   const leftCurrency = isCoinPrimary
-    ? { type: "coin", symbol: displaySymbol, label: "Отдаете" }
-    : { type: "usd", symbol: "USD", label: "Отдаете" };
+    ? { type: "coin", symbol: displaySymbol, label: "You give" }
+    : { type: "usd", symbol: "USD", label: "You give" };
   const rightCurrency = isCoinPrimary
-    ? { type: "usd", symbol: "USD", label: "Получаете" }
-    : { type: "coin", symbol: displaySymbol, label: "Получаете" };
+    ? { type: "usd", symbol: "USD", label: "You get" }
+    : { type: "coin", symbol: displaySymbol, label: "You get" };
 
   const leftValue =
     leftCurrency.type === "coin" ? coinAmount : usdAmount;
@@ -159,7 +159,7 @@ export default function CoinPriceWidget({
                 value={leftValue}
                 onChange={onLeftChange}
                 disabled={loading || price === null}
-                aria-label={`Сумма в ${leftCurrency.symbol}`}
+                aria-label={`Amount in ${leftCurrency.symbol}`}
               />
             </div>
           </div>
@@ -168,9 +168,9 @@ export default function CoinPriceWidget({
             type="button"
             className="coin-price-widget__swap"
             onClick={handleSwap}
-            aria-label="Поменять направление конвертации"
+            aria-label="Swap conversion direction"
           >
-            Поменять <span aria-hidden="true">⇆</span>
+            Swap <span aria-hidden="true">⇆</span>
           </button>
 
           <div className="coin-price-widget__column">
@@ -190,7 +190,7 @@ export default function CoinPriceWidget({
                 value={rightValue}
                 onChange={onRightChange}
                 disabled={loading || price === null}
-                aria-label={`Сумма в ${rightCurrency.symbol}`}
+                aria-label={`Amount in ${rightCurrency.symbol}`}
               />
             </div>
           </div>
@@ -350,15 +350,15 @@ function formatNumber(value, maxFractionDigits = 6) {
   });
 }
 
-// Форматирование числа для input (без запятых, только точка для десятичных)
+// Format number for input (no commas, only dot for decimals)
 function formatNumberForInput(value, maxFractionDigits = 6) {
   if (!Number.isFinite(value)) {
     return "";
   }
 
-  // Используем toFixed для контроля десятичных знаков, затем убираем лишние нули
+  // Use toFixed to control decimal places, then strip trailing zeros
   const fixed = value.toFixed(maxFractionDigits);
-  // Убираем лишние нули в конце
+  // Strip trailing zeros
   return fixed.replace(/\.?0+$/, "") || "0";
 }
 

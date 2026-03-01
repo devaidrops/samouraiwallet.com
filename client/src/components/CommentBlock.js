@@ -97,7 +97,7 @@ const CommentBlock = ({
             <img
               className="comment-avatar"
               src="/img/default-avatar.png?id=756caeb651ce93406994"
-              alt="Аватар"
+              alt="Avatar"
               width="50"
               height="50"
               loading="lazy"

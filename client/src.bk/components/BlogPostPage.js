@@ -185,7 +185,7 @@ export default function BlogPostPage({
           content={generalOption.allow_indexation ? robotsTxt : "noindex"}
         />
         <meta name="description" content={post.meta.description} />
-        <meta name="author" content="Команда Crypto Space" />
+        <meta name="author" content="Coin Explorers Team" />
         <link
           rel="canonical"
           href={`${baseClientUrl}/${post.post_category.slug}/${post.slug}/`}
@@ -195,7 +195,7 @@ export default function BlogPostPage({
       {commentSubmitted && (
         <div className="alert-wrapper" role="alert">
           <div className="alert alert-primary">
-            Комментарий отправлен. Он появится после проверки
+            Comment submitted. It will appear after moderation
           </div>
         </div>
       )}
@@ -204,7 +204,7 @@ export default function BlogPostPage({
           <Breadcrumbs
             items={[
               { url: "/", title: "Home" },
-              { url: `/${post.post_category.slug}`, title: "Статьи" },
+              { url: `/${post.post_category.slug}`, title: "Articles" },
               {
                 url: `/${post.post_category.slug}/${post.slug}`,
                 title: post.title,
@@ -225,7 +225,7 @@ export default function BlogPostPage({
           />
           <meta
             itemProp="headline"
-            content="Как перевести токены с HTX на HTX: пошаговый гайд"
+            content="How to transfer tokens from HTX to HTX: step-by-step guide"
           />
 
           <div
@@ -247,7 +247,7 @@ export default function BlogPostPage({
               <img
                 className="article-show__feedback-author-avatar"
                 src={generalOption.author.avatar}
-                alt="Команда Crypto Space"
+                alt="Coin Explorers Team"
                 width="56"
                 height="56"
               />
@@ -310,7 +310,7 @@ export default function BlogPostPage({
                 />
                 {voted === -1 && (
                   <div className="notice">
-                    Упс…подскажите в комментариях, что нужно исправить
+                    Oops… please let us know in the comments what needs to be fixed
                   </div>
                 )}
               </div>
@@ -356,7 +356,7 @@ export default function BlogPostPage({
           <div className="common-comments" id="comments">
             <div className="common-comments__header">
               <div className="common-comments__title">
-                Все комментарии пользователей
+                All user comments
               </div>
               <div className="common-comments__do-comment" id="js-comments-add">
                 <form
@@ -374,20 +374,19 @@ export default function BlogPostPage({
                   <div className="feedback-user-data-inside">
                     <div className="caption">
                       <p className="notice">
-                        Мы не собираем персональные данные, можете указать любое
-                        имя
+                        We do not collect personal data; you may use any name
                       </p>
                     </div>
                     <div className="user-fields">
                       <div className="user-fields-inside">
                         <div className="input-wrapper">
-                          <div className="label">Ваше имя</div>
+                          <div className="label">Your name</div>
                           <input
                             type="text"
                             name="user_name"
                             id="comment-user-name"
                             required
-                            title="Имя"
+                            title="Name"
                             onChange={(e) =>
                               (formData.current.name = e.target.value)
                             }
@@ -403,8 +402,8 @@ export default function BlogPostPage({
                         name="content"
                         id="comment-content"
                         className="text-31 laptop-desktoptext-s-14-reg"
-                        placeholder="Написать комментарий..."
-                        title="Написать комментарий..."
+                        placeholder="Write a comment..."
+                        title="Write a comment..."
                         minLength={100}
                         required
                         onChange={(e) =>
@@ -415,7 +414,7 @@ export default function BlogPostPage({
                         <img
                           className="iconarrow-right-bold"
                           src="/img/icon-arrow-right-bold.svg"
-                          alt="Написать комментарий"
+                          alt="Write a comment"
                         />
                       </button>
                     </div>
@@ -525,7 +524,7 @@ export default function BlogPostPage({
                   className="btn-more"
                   onClick={() => setLoadMore(true)}
                 >
-                  <span>Показать еще</span>
+                  <span>Show more</span>
                   <img src="/img/icon-load-more.svg" alt="" />
                 </button>
               )}

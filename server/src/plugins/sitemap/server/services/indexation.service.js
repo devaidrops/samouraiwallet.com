@@ -1,4 +1,5 @@
 'use strict';
+'use strict';
 
 const cron = require('node-cron');
 const fs = require("fs");
@@ -137,11 +138,11 @@ module.exports = {
   },
 
   async getLinks() {
-    const baseUrl = process.env.PUBLIC_CLIENT_URL || 'https://cryptoteh.ru';
-  
+    const baseUrl = process.env.PUBLIC_CLIENT_URL || 'https://coinexplorers.com';
+
     const reviews = await strapi.query('api::review.review').findMany({ populate: ['review_category'] });
     const posts = await strapi.query('api::post.post').findMany({ populate: ['post_category'] });
-  
+
     return [
       ...reviews.map((review) => ({
         link: `${baseUrl}/${review.review_category?.slug || ''}/${review.slug}`,
@@ -153,7 +154,7 @@ module.exports = {
       })),
     ];
   },
-  
+
   /**
    * @param {'google' | 'yandex'} taskType
    * @param {string} apiKey

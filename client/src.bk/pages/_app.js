@@ -47,11 +47,11 @@ export default function App({ Component, pageProps, props }) {
         <meta itemProp="inLanguage" content="ru-RU" />
         <meta
           itemProp="name"
-          content="Как перевести токены с HTX на HTX: пошаговый гайд"
+          content="How to transfer tokens from HTX to HTX: step-by-step guide"
         />
         <meta
           itemProp="description"
-          content="На HTX доступны два вида внутренних переводов: между своими аккаунтами и между разными пользователями. Как перевести токены в HTX без комиссии?"
+          content="HTX offers two types of internal transfers: between your own accounts and between different users. How to transfer tokens on HTX with no fee?"
         />
         <meta itemProp="isPartOf" content={`${baseClientUrl}/#website`} />
         <meta itemProp="datePublished" content="2024-10-24" />

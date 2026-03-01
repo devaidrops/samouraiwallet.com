@@ -212,11 +212,11 @@ export default function Home({
             <thead>
               <tr>
                 <td>
-                  <div className="inner">{/* <span>Биржа</span> */}</div>
+                  <div className="inner">{/* <span>Exchange</span> */}</div>
                 </td>
                 <td>
                   <div className="inner text-center">
-                    <span>Общий рейтинг</span>
+                    <span>Overall rating</span>
                   </div>
                 </td>
                 {companyInfoWidgets.map((item) => (
@@ -298,7 +298,7 @@ export default function Home({
                       title={review.title}
                     >
                       <div className="button-text laptop-desktoptext-s-14-med">
-                        Обзор
+                        Review
                       </div>
                       <img
                         src="/img/icon-arrow-table.svg"
@@ -379,7 +379,7 @@ export default function Home({
               >
                 <div className="portfolio-list-item__feed-short">
                   {/* <div className="portfolio-list-item__title">
-                    Лента событий:
+                    Event feed:
                   </div> */}
 
                   <div

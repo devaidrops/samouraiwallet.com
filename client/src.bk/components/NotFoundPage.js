@@ -8,13 +8,13 @@ const NotFoundPage = () => {
           <div className="error-page">
             <h1>404</h1>
             <div className="sub-title">
-              Не удалось загрузить страницу
+              Failed to load page
             </div>
             <div className="description">
-              По вашему запросу ничего не нашлось, но все, что нужно, есть на главной странице
+              Nothing was found for your request, but you can find what you need on the main page
             </div>
             <div className="url">
-              <Link href="/">Перейти на главную страницу</Link>
+              <Link href="/">Go to main page</Link>
             </div>
           </div>
         </div>

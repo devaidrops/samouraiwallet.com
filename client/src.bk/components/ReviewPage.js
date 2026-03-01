@@ -281,7 +281,7 @@ export default function ReviewPage({ review, generalOption, host }) {
       {commentSubmitted && (
         <div className="alert-wrapper" role="alert">
           <div className="alert alert-primary">
-            Отзыв отправлен. Он появится после проверки
+            Review submitted. It will appear after moderation
           </div>
         </div>
       )}
@@ -346,7 +346,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                         href="#brokers-show__feedback"
                         className="to-comments-link"
                       >
-                        Оставить отзыв
+                        Leave a review
                       </Link>
                     </div>
                   </div>
@@ -359,7 +359,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                     alt="Date"
                   />
                   <div className="date-text">
-                    Актуально на {moment(review.publishedAt).format("MMM YYYY")}
+                    As of {moment(review.publishedAt).format("MMM YYYY")}
                   </div>
                 </div>
               </div>
@@ -393,7 +393,7 @@ export default function ReviewPage({ review, generalOption, host }) {
               ))}
             </div>
           </div>
-          <div className="about-company-title">Информация о компании</div>
+          <div className="about-company-title">Company information</div>
           <div
             className="company-info-wrapper"
             itemScope=""
@@ -419,7 +419,7 @@ export default function ReviewPage({ review, generalOption, host }) {
               </div>
             ))}
           </div>
-          <div className="about-company-title">Плюсы и минусы</div>
+          <div className="about-company-title">Pros and cons</div>
           <div className="plus-and-minus-wrapper">
             <div className="inside">
               <div className="unit pluses">
@@ -447,8 +447,8 @@ export default function ReviewPage({ review, generalOption, host }) {
               aria-controls="indexCollapse"
               onClick={() => setShowArticleMenu(!showArticleMenu)}
             >
-              <span>Содержание</span>
-              <img src="/img/icon-arrow-down-bold.svg" alt="Содержание" />
+              <span>Table of contents</span>
+              <img src="/img/icon-arrow-down-bold.svg" alt="Table of contents" />
             </a>
 
             <div
@@ -469,7 +469,7 @@ export default function ReviewPage({ review, generalOption, host }) {
           </div>
 
           <div className="brokers-summary-wrapper">
-            <div className="brokers-summary-title">Итоги обзора</div>
+            <div className="brokers-summary-title">Review summary</div>
             <div className="brokers-summary">
               <div className="graphics flex justify-center pt-4">
                 <div className="w-3/4">
@@ -505,13 +505,13 @@ export default function ReviewPage({ review, generalOption, host }) {
               </div>
             </div>
           </div>
-          <meta itemProp="author" content="Ксения Пронина" />
+          <meta itemProp="author" content="Coin Explorers Team" />
           <div className="article-show__feedback">
             <div className="article-show__feedback-author">
               <img
                 className="article-show__feedback-author-avatar"
                 src={generalOption.author.avatar}
-                alt="Команда Crypto Space"
+                alt="Coin Explorers Team"
                 width="56"
                 height="56"
               />
@@ -574,7 +574,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                 />
                 {voted === -1 && (
                   <div className="notice">
-                    Упс…подскажите в комментариях, что нужно исправить
+                    Oops… please let us know in the comments what needs to be fixed
                   </div>
                 )}
               </div>
@@ -590,7 +590,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                 className="review-button"
                 onClick={() => setCommentFormShow(!commentFormShow)}
               >
-                <span className="js-feedback-add-button">Добавить отзыв</span>
+                <span className="js-feedback-add-button">Add review</span>
               </div>
             </div>
 
@@ -617,20 +617,19 @@ export default function ReviewPage({ review, generalOption, host }) {
                 <div className="feedback-user-data-inside">
                   <div className="caption">
                     <p className="notice">
-                      Мы не собираем персональные данные, можете указать любое
-                      имя
+                      We do not collect personal data; you may use any name
                     </p>
                   </div>
                   <div className="user-fields">
                     <div className="user-fields-inside">
                       <div className="input-wrapper">
-                        <div className="label">Ваше имя</div>
+                        <div className="label">Your name</div>
                         <input
                           type="text"
                           name="user_name"
                           id="comment-user-name"
                           required
-                          title="Имя"
+                          title="Name"
                           onChange={(e) =>
                             (formData.current.name = e.target.value)
                           }
@@ -646,8 +645,8 @@ export default function ReviewPage({ review, generalOption, host }) {
                       name="content"
                       id="comment-content"
                       className="text-31 laptop-desktoptext-s-14-reg"
-                      placeholder="Написать комментарий..."
-                      title="Написать комментарий..."
+                      placeholder="Write a comment..."
+                      title="Write a comment..."
                       minLength={100}
                       required
                       onChange={(e) => (formData.current.text = e.target.value)}
@@ -656,7 +655,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                       <img
                         className="iconarrow-right-bold"
                         src="/img/icon-arrow-right-bold.svg"
-                        alt="Написать комментарий"
+                        alt="Write a comment"
                       />
                     </button>
                   </div>
@@ -766,7 +765,7 @@ export default function ReviewPage({ review, generalOption, host }) {
                     className="btn-more"
                     onClick={() => setLoadMore(true)}
                   >
-                    <span>Показать еще</span>
+                    <span>Show more</span>
                     <img src="/img/icon-load-more.svg" alt="" />
                   </button>
                 )}

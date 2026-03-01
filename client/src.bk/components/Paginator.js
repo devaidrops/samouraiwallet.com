@@ -41,7 +41,7 @@ const Paginator = ({
               className="page-link"
               href={`${baseURL}${baseQuery(1)}`}
               rel="prev"
-              aria-label="« Назад"
+              aria-label="Previous"
             >
               &lt;
             </Link>
@@ -81,7 +81,7 @@ const Paginator = ({
               className="page-link"
               href={`${baseURL}${baseQuery(pageCount)}`}
               rel="next"
-              aria-label="Вперёд »"
+              aria-label="Next"
             >
               &gt;
             </Link>

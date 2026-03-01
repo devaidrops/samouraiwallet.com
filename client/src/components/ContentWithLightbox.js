@@ -9,10 +9,10 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/counter.css";
 
 /**
- * Компонент для рендеринга HTML-контента с поддержкой лайтбокса для изображений
- * @param {string} html - HTML строка для рендеринга
- * @param {string} id - ID контейнера (опционально)
- * @param {string} className - CSS класс контейнера (опционально)
+ * Component for rendering HTML content with lightbox support for images
+ * @param {string} html - HTML string to render
+ * @param {string} id - Container ID (optional)
+ * @param {string} className - Container CSS class (optional)
  */
 export default function ContentWithLightbox({ html, id, className = "wysiwyg-content" }) {
   const containerRef = useRef(null);
@@ -20,7 +20,7 @@ export default function ContentWithLightbox({ html, id, className = "wysiwyg-con
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const [slides, setSlides] = useState([]);
 
-  // Обработка HTML контента (удаление srcset, добавление ID для h2)
+  // Process HTML content (remove srcset, add ID to h2)
   const processedHtml = useMemo(() => {
     if (!html) return "";
 
@@ -36,7 +36,7 @@ export default function ContentWithLightbox({ html, id, className = "wysiwyg-con
     return newContent;
   }, [html]);
 
-  // Инициализация лайтбокса: поиск всех изображений и добавление обработчиков
+  // Initialize lightbox: find all images and add handlers
   useEffect(() => {
     if (!containerRef.current || !processedHtml) return;
 
@@ -88,7 +88,7 @@ export default function ContentWithLightbox({ html, id, className = "wysiwyg-con
         },
       },
       plugins: [Counter],
-      counter: { separator: " из " },
+      counter: { separator: " of " },
     }),
     [lightboxOpen, lightboxIndex, slides]
   );

@@ -72,7 +72,7 @@ export default function SitemapPage({ links, pageCount, page, generalOption }) {
       <Head>
         <meta charSet="utf-8" />
         <title>
-          HTML карта (HTML Sitemap) сайта{" "}
+          HTML sitemap of the site{" "}
           {process.env.NEXT_PUBLIC_APP_URL || "http://127.0.0.1:3000"}
         </title>
         <meta
@@ -81,9 +81,9 @@ export default function SitemapPage({ links, pageCount, page, generalOption }) {
         />
         <meta
           name="description"
-          content={`Список обзоров на сайте ${
+          content={`List of reviews on ${
             process.env.NEXT_PUBLIC_APP_URL || "http://127.0.0.1:3000"
-          } | Удобная навигация по HTML карте (HTML Sitemap)`}
+          } | Easy navigation via HTML sitemap`}
         />
         <link
           rel="canonical"
@@ -101,7 +101,7 @@ export default function SitemapPage({ links, pageCount, page, generalOption }) {
               { url: `/sitemap`, title: "Sitemap" },
             ]}
           />
-          <h1 itemProp="name">HTML карта</h1>
+          <h1 itemProp="name">HTML Sitemap</h1>
         </div>
         <div className="w-full grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
           {links.map((link) => (

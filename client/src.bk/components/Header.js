@@ -41,7 +41,7 @@ const Header = ({ menu }) => {
           <Image
             className="logo-blue"
             src="/img/logo.svg"
-            alt="Crypto Space"
+            alt="Coin Explorers"
             width={190}
             height={80}
             style={{ height: "50px", width: "auto" }}
@@ -70,7 +70,7 @@ const Header = ({ menu }) => {
                 <img
                   className="menu-logo"
                   src="/img/logo-blue.svg"
-                  alt="Crypto Space"
+                  alt="Coin Explorers"
                 />
               </a>
 
@@ -93,7 +93,7 @@ const Header = ({ menu }) => {
                   href="#"
                   onClick={(e) => handleActiveMobileMenu(e, 0)}
                 >
-                  <span>Навигация</span>
+                  <span>Navigation</span>
                   <img src="/img/icon-dropdown.svg" alt="" />
                 </Link>
                 <div
@@ -116,36 +116,36 @@ const Header = ({ menu }) => {
               </li>
               {/*<li className="nav-item   dropdown ">*/}
               {/*  <a className="nav-link dropdown-toggle js-dropdown-toggle visible" href="#">*/}
-              {/*    <span>Инструменты</span>*/}
+              {/*    <span>Tools</span>*/}
               {/*    <img src="/img/icon-dropdown.svg" alt="" />*/}
               {/*  </a>*/}
               {/*  <div className="dropdown-menu" style="display: none;">*/}
               {/*    <Link className="dropdown-item " href="/instruments/ico">ICO</Link>*/}
               {/*    <Link className="dropdown-item " href="/instruments/airdrop">Airdrop</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/farming">Фарминг</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/crypto">Криптовалюты</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/mayning">Майнинг</Link>*/}
-              {/*    <Link className="dropdown-item " href="/instruments/steyking">Стейкинг</Link>*/}
+              {/*    <Link className="dropdown-item " href="/instruments/farming">Farming</Link>*/}
+              {/*    <Link className="dropdown-item " href="/instruments/crypto">Cryptocurrencies</Link>*/}
+              {/*    <Link className="dropdown-item " href="/instruments/mayning">Mining</Link>*/}
+              {/*    <Link className="dropdown-item " href="/instruments/steyking">Staking</Link>*/}
               {/*  </div>*/}
               {/*</li>*/}
               {/*<li className="nav-item   dropdown ">*/}
               {/*  <a className="nav-link dropdown-toggle js-dropdown-toggle visible" href="#">*/}
-              {/*    <span>Полезная информация</span>*/}
+              {/*    <span>Useful information</span>*/}
               {/*    <img src="/img/icon-dropdown.svg" alt="" />*/}
               {/*  </a>*/}
               {/*  <div className="dropdown-menu" style="display: block;">*/}
-              {/*    <Link className="dropdown-item " href="/articles">Статьи</Link>*/}
-              {/*    <Link className="dropdown-item " href="/pages/vakansii">Вакансии</Link>*/}
-              {/*    <Link className="dropdown-item " href="/interpretations">Словарь инвестора</Link>*/}
-              {/*    <Link className="dropdown-item " href="/portfolio">Инвест портфели</Link>*/}
-              {/*    <Link className="dropdown-item " href="/apps">Приложения бирж</Link>*/}
-              {/*    <Link className="dropdown-item " href="/trades">Как торговать на криптобирже?</Link>*/}
+              {/*    <Link className="dropdown-item " href="/articles">Articles</Link>*/}
+              {/*    <Link className="dropdown-item " href="/pages/vakansii">Careers</Link>*/}
+              {/*    <Link className="dropdown-item " href="/interpretations">Investor glossary</Link>*/}
+              {/*    <Link className="dropdown-item " href="/portfolio">Investment portfolios</Link>*/}
+              {/*    <Link className="dropdown-item " href="/apps">Exchange apps</Link>*/}
+              {/*    <Link className="dropdown-item " href="/trades">How to trade on a crypto exchange?</Link>*/}
               {/*  </div>*/}
               {/*</li>*/}
             </ul>
 
             {/*<Link className="mobile-gift-img" href="/bonuses">*/}
-            {/*  <span className="text">Получить подарок</span>*/}
+            {/*  <span className="text">Get gift</span>*/}
             {/*  <span className="icon-gift"></span>*/}
             {/*</Link>*/}
           </div>
@@ -186,7 +186,7 @@ const Header = ({ menu }) => {
                 id="js-header-search__form-input"
                 className="header-search__form-input"
                 itemProp="query"
-                placeholder="Поиск по сайту..."
+                placeholder="Search the site..."
                 onChange={handleSearchInputChange}
               />
 
@@ -200,7 +200,7 @@ const Header = ({ menu }) => {
                 <img
                   className="iconsearch"
                   src="/img/icon-search.svg"
-                  alt="Поиск"
+                  alt="Search"
                 />
               </button>
             </div>

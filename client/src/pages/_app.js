@@ -29,7 +29,7 @@ export default function App({ Component, pageProps, props }) {
     recentPosts,
   } = props;
   
-  // Получаем generalOption из pageProps, если он есть
+  // Get generalOption from pageProps if present
   const generalOption = pageProps?.generalOption || null;
 
   const appId = useMemo(() => {
@@ -48,14 +48,14 @@ export default function App({ Component, pageProps, props }) {
     <div className={clsx(inter.className, "cryptospace screen site_width")}>
       <Header menu={headerMenu} generalOption={generalOption} />
       <div id="app-content" itemScope="" itemType="https://schema.org/WebPage">
-        <meta itemProp="inLanguage" content="ru-RU" />
+        <meta itemProp="inLanguage" content="en" />
         <meta
           itemProp="name"
-          content="Как перевести токены с HTX на HTX: пошаговый гайд"
+          content="How to transfer tokens from HTX to HTX: step-by-step guide"
         />
         <meta
           itemProp="description"
-          content="На HTX доступны два вида внутренних переводов: между своими аккаунтами и между разными пользователями. Как перевести токены в HTX без комиссии?"
+          content="HTX offers two types of internal transfers: between your own accounts and between different users. How to transfer tokens on HTX with no fee?"
         />
         <meta itemProp="isPartOf" content={`${baseClientUrl}/#website`} />
         <meta itemProp="datePublished" content="2024-10-24" />
@@ -138,11 +138,11 @@ App.getInitialProps = async ({ router }) => {
       recentReviews = data.data.data;
     });
 
-  // Загружаем последние посты и страницы
+  // Load latest posts and pages
   let posts = [];
   let pages = [];
   
-  // Загружаем посты
+  // Load posts
   await axios
     .get(
       `${API_BASE}/api/posts`,
@@ -165,7 +165,7 @@ App.getInitialProps = async ({ router }) => {
       posts = [];
     });
 
-  // Загружаем страницы
+  // Load pages
   await axios
     .get(
       `${API_BASE}/api/pages`,
@@ -187,7 +187,7 @@ App.getInitialProps = async ({ router }) => {
       pages = [];
     });
 
-  // Объединяем посты и страницы, сортируем по дате и берем 5 последних
+  // Merge posts and pages, sort by date and take 5 latest
   recentPosts = [...posts, ...pages]
     .sort((a, b) => new Date(b.attributes.publishedAt) - new Date(a.attributes.publishedAt))
     .slice(0, 5);

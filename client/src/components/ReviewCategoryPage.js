@@ -76,15 +76,15 @@ export default function ReviewCategoryPage({
             <thead>
               <tr>
                 <td>
-                  <div className="inner">{/* <span>Биржа</span> */}</div>
+                  <div className="inner">{/* <span>Exchange</span> */}</div>
                 </td>
                 <td>
                   <div className="inner text-center">
-                    <span>Общий рейтинг</span>
+                    <span>Overall rating</span>
                   </div>
                 </td>
                 {companyInfoWidgets
-                  .filter((item) => item.label === "Прошел проверку?")
+                  .filter((item) => item.label === "Passed verification?")
                   .map((item) => (
                     <td key={item.id}>
                       <div className="inner text-center">
@@ -137,7 +137,7 @@ export default function ReviewCategoryPage({
                     </span>
                   </td>
                   {companyInfoWidgets
-                    .filter((widget) => widget.label === "Прошел проверку?")
+                    .filter((widget) => widget.label === "Passed verification?")
                     .map((widget) => {
                       const companyInfoItem = review.company_info?.find(
                         (item) => item.title === widget.label
@@ -147,7 +147,7 @@ export default function ReviewCategoryPage({
                         <td key={widget.id} className="no-wrap coins-wrapper-mobile">
                           <span className="show-mobile">{widget.label}:&nbsp;</span>
                           <span className="whitespace-normal">
-                            {companyInfoItem?.value || "На проверке"}
+                            {companyInfoItem?.value || "Under review"}
                           </span>
                         </td>
                       );
@@ -160,7 +160,7 @@ export default function ReviewCategoryPage({
                       title={review.title}
                     >
                       <div className="button-text laptop-desktoptext-s-14-med">
-                        Обзор
+                        Review
                       </div>
                       <img
                         src="/img/icon-arrow-table.svg"

@@ -12,15 +12,15 @@ const Footer = ({ menu, copyrightMenu }) => {
                 <Image
                   className="logo-blue"
                   src="/img/logo.svg"
-                  alt="Crypto Space"
+                  alt="Coin Explorers"
                   width={190}
                   height={80}
                   style={{ height: "60px", width: "auto" }}
                 />
               </Link>
               {/* <div className="text-30 laptop-desktoph2-sb-30">
-                Узнавайте <br />
-                события первыми
+                Be the first <br />
+                to know about events
               </div> */}
             </div>
 
@@ -59,13 +59,11 @@ const Footer = ({ menu, copyrightMenu }) => {
           </div>
         </div>
         <p className="copyright-text">
-          Материалы, размещённые на сайте crypto-bridge.webtm.ru, предназначены
-          исключительно для ознакомительных целей и не представляют собой
-          индивидуальную рекомендацию. Администрация ресурса не несёт
-          ответственности за решения пользователей и напоминает о возможных
-          рисках, связанных с частичной или полной потерей финансов. Сайт носит
-          исключительно информационный характер, не осуществляет приём платежей
-          и предназначен для аудитории 18+.
+          Materials published on this site are for informational purposes only and
+          do not constitute individual investment advice. The site administration
+          is not responsible for user decisions and reminds of possible risks
+          associated with partial or total loss of funds. The site is for
+          information only, does not accept payments and is intended for audiences 18+.
         </p>
       </div>
     </div>

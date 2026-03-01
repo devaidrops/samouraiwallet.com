@@ -206,20 +206,20 @@ export default function Home({
             <thead>
               <tr>
                 <td>
-                  <div className="inner">{/* <span>Биржа</span> */}</div>
+                  <div className="inner">{/* <span>Exchange</span> */}</div>
                 </td>
                 <td>
                   <div className="inner text-center">
-                    <span>Общий рейтинг</span>
+                    <span>Overall rating</span>
                   </div>
                 </td>
                 {companyInfoWidgets
                   .filter(
                     (item) =>
-                      item.label !== "Лет на рынке" &&
-                      item.label !== "Негативные отзывы" &&
-                      item.label !== "Вид спорта" &&
-                      item.label !== "Направление"
+                      item.label !== "Years in market" &&
+                      item.label !== "Negative reviews" &&
+                      item.label !== "Sport type" &&
+                      item.label !== "Direction"
                   )
                   .map((item) => (
                     <td key={item.id}>
@@ -241,9 +241,9 @@ export default function Home({
 
             <tbody>
               {reviews.map((review) => {
-                // тут вытаскиваем из company_info значение "Прошел проверку?"
+                // get from company_info the "Passed verification?" value
                 const checkInfo = review.company_info?.find(
-                  (item) => item.title === "Прошел проверку?"
+                  (item) => item.title === "Passed verification?"
                 );
 
                 return (
@@ -269,7 +269,7 @@ export default function Home({
                       </span>
                     </td>
 
-                    {/* Общий рейтинг */}
+                    {/* Overall rating */}
                     <td className="no-wrap turnover-wrapper">
                       <span className="normal-rating flex justify-center items-center gap-1 flex-nowrap">
                         <span className="sm:mb-[1px]">{review.rating}</span>
@@ -281,11 +281,11 @@ export default function Home({
                       </span>
                     </td>
 
-                    {/* Прошел проверку? */}
+                    {/* Passed verification? */}
                     <td className="no-wrap coins-wrapper-mobile">
-                      <span className="show-mobile">Прошел проверку?:&nbsp;</span>
+                      <span className="show-mobile">Passed verification?:&nbsp;</span>
                       <span className="whitespace-normal">
-                        {checkInfo?.value || "На проверке"}
+                        {checkInfo?.value || "Under review"}
                       </span>
                     </td>
 
@@ -296,7 +296,7 @@ export default function Home({
                         title={review.title}
                       >
                         <div className="button-text laptop-desktoptext-s-14-med">
-                          Обзор
+                          Review
                         </div>
                         <img
                           src="/img/icon-arrow-table.svg"
@@ -382,7 +382,7 @@ export default function Home({
               >
                 <div className="portfolio-list-item__feed-short">
                   {/* <div className="portfolio-list-item__title">
-                    Лента событий:
+                    Event feed:
                   </div> */}
 
                   <div
