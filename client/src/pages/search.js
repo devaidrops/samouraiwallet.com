@@ -1,6 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
-import { baseClientUrl } from "@/constants/constants";
+import { baseClientUrl, robotsTxt } from "@/constants/constants";
 import { PostModel } from "@/models/post.model";
 import { ReviewModel } from "@/models/review.model";
 import SearchResult from "@/components/SearchResult";

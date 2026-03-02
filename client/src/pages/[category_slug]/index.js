@@ -1,6 +1,6 @@
 import axios from "axios";
 import Head from "next/head";
-import { baseClientUrl } from "@/constants/constants";
+import { baseClientUrl, robotsTxt } from "@/constants/constants";
 import BlogCategoryPage from "@/components/BlogCategoryPage";
 import NotFoundPage from "@/components/NotFoundPage";
 import ReviewCategoryPage from "@/components/ReviewCategoryPage";
@@ -211,11 +211,16 @@ export default function ExchangePage({
     return (
       <>
         <Head>
+          <meta charSet="utf-8" />
           <title>
             {customPage.metaTitle
               ? customPage.metaTitle
               : customPage.title}
           </title>
+          <meta
+            name="robots"
+            content={generalOption?.allow_indexation ? robotsTxt : "noindex"}
+          />
           {customPage.metaDescription ? (
             <meta name="description" content={customPage.metaDescription} />
           ) : null}
