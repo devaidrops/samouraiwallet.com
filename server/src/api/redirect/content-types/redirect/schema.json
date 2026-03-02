@@ -1,0 +1,28 @@
+{
+  "kind": "collectionType",
+  "collectionName": "redirects",
+  "info": {
+    "singularName": "redirect",
+    "pluralName": "redirects",
+    "displayName": "Redirection",
+    "description": "301 переадресации: откуда (from) → куда (to)"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "from": {
+      "type": "string",
+      "required": true,
+      "description": "Откуда (исходный URL или путь)",
+      "displayName": "Откуда"
+    },
+    "to": {
+      "type": "string",
+      "required": true,
+      "description": "Куда (целевой URL или путь)",
+      "displayName": "Куда"
+    }
+  }
+}
