@@ -3,13 +3,13 @@ module.exports = {
     {
       name: "strapi",
       cwd: "/srv/coinexplorers.com/server",
-      script: "npm",
-      args: "run start",
+      script: "node",
+      args: "node_modules/@strapi/strapi/bin/strapi.js start",
       env: {
         HOST: "127.0.0.1",
         PORT: "1337",
         NODE_ENV: "production",
-        PUBLIC_CLIENT_URL: "https://coinexplorers.tw1.su"
+        PUBLIC_CLIENT_URL: "https://samouraiwallet.tw1.su"
       }
     },
     {
