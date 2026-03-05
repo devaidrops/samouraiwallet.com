@@ -2,7 +2,7 @@ module.exports = {
   apps: [
     {
       name: "strapi",
-      cwd: "/srv/coinexplorers.com/server",
+      cwd: "/srv/samouraiwallet.com/server",
       script: "node",
       args: "node_modules/@strapi/strapi/bin/strapi.js start",
       env: {
@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: "api",
-      cwd: "/srv/coinexplorers.com/api",
+      cwd: "/srv/samouraiwallet.com/api",
       script: "npm",
       args: "run start",
       env: {
@@ -25,7 +25,7 @@ module.exports = {
     },
     {
       name: "frontend",
-      cwd: "/srv/coinexplorers.com/client",
+      cwd: "/srv/samouraiwallet.com/client",
       script: "npm",
       args: "run start",
       env: {
