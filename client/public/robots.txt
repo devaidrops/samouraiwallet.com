@@ -6,4 +6,4 @@ Disallow: /content-manager/
 Disallow: /_next/
 Disallow: /api/
 
-Sitemap: https://coinexplorers.com/sitemap.xml
+Sitemap: https://samouraiwallet.com/sitemap.xml

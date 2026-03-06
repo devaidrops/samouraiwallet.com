@@ -9,7 +9,7 @@ module.exports = {
         HOST: "127.0.0.1",
         PORT: "1337",
         NODE_ENV: "production",
-        PUBLIC_CLIENT_URL: "https://samouraiwallet.tw1.su"
+        PUBLIC_CLIENT_URL: "https://samouraiwallet.com"
       }
     },
     {

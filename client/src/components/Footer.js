@@ -43,9 +43,8 @@ const Footer = ({ menu, copyrightMenu, generalOption }) => {
 
           <div className="menu-copyright laptop-desktoptext-m-15-reg">
             <div className="copyright">
-            Copyright © {new Date().getFullYear()} - All Rights Reserved
+            Founded 2015 @ The Local Talent Pub, London   -   © {new Date().getFullYear()} Streetside Development, LLC
             </div>
-
             {copyrightMenu.items.data.map((item) => (
               <div key={item.id} className="menu_copyright_item ">
                 <a href={item.attributes.url} className="text-url">

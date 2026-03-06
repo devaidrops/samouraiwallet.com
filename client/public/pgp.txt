@@ -1,0 +1,25 @@
+Samourai Wallet — PGP Public Key (Security Contact)
+===================================================
+
+Purpose:
+This key is used to verify security communications and to receive encrypted vulnerability reports.
+
+Contact:
+Email: security@samouraiwallet.com
+Website: https://samouraiwallet.com
+
+Key details:
+Owner: Samourai Wallet (Security)
+Fingerprint: REPLACE_WITH_YOUR_FINGERPRINT
+
+How to import:
+gpg --import pgp.txt
+
+How to verify fingerprint:
+gpg --show-keys --fingerprint pgp.txt
+
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+
+<PASTE_YOUR_ARMORED_PUBLIC_KEY_HERE_FROM_publickey.asc>
+
+-----END PGP PUBLIC KEY BLOCK-----
