@@ -18,6 +18,8 @@ const STRAPI_BASE_URL = process.env.STRAPI_BASE_URL || "http://127.0.0.1:1337";
 const STRAPI_PUBLIC_URL = process.env.STRAPI_PUBLIC_URL || process.env.APP_BASE_URL || STRAPI_BASE_URL;
 const APP_BASE_URL = process.env.APP_BASE_URL || "http://127.0.0.1:3000";
 const SPEEDY_INDEX_API_KEY = process.env.SPEEDY_INDEX_API_KEY ?? "";
+/** Включить отладочные логи create-post (поля публикации). В проде не задавать — иначе рост логов при каждом запросе. */
+const DEBUG_CREATE_POST = process.env.DEBUG_CREATE_POST === "1" || process.env.DEBUG_CREATE_POST === "true";
 
 // Function to download an image
 const downloadImage = async (url) => {
@@ -197,6 +199,20 @@ app.post("/create-review", async (req, res) => {
   }
 });
 
+// Normalize Strapi post response so clients get top-level id and link
+const normalizePostResult = (item) => {
+  if (!item || typeof item !== "object") return item;
+  const id = item?.data?.id ?? item?.id;
+  const slug = item?.data?.attributes?.slug ?? item?.attributes?.slug;
+  const categorySlug = item?.data?.attributes?.post_category?.data?.attributes?.slug
+    ?? item?.attributes?.post_category?.data?.attributes?.slug;
+  const path = slug
+    ? (categorySlug ? `${categorySlug}/${slug}` : slug)
+    : "";
+  const link = path ? `${APP_BASE_URL}/${path}` : undefined;
+  return { ...item, id, link };
+};
+
 // API to create a post (api::post.post); accepts single object or array of objects
 app.post("/create-post", async (req, res) => {
   try {
@@ -225,12 +241,35 @@ app.post("/create-post", async (req, res) => {
       const meta_title = payload.meta_title ?? payload.seo?.meta_title ?? "";
       const meta_description = payload.meta_description ?? payload.seo?.meta_description ?? "";
 
+      // Опубликовать: publishedAt / published / status / isPublished — см. комментарий ниже
       let isPublished = false;
-      if (payload.publishedAt !== undefined && payload.publishedAt !== null) {
-        const v = String(payload.publishedAt).toLowerCase();
-        isPublished = v === "publish" || v === "published" || v === "true";
+      const rawPublish = payload.publishedAt ?? payload.published ?? payload.status ?? payload.isPublished;
+      if (rawPublish !== undefined && rawPublish !== null) {
+        const v = String(rawPublish).toLowerCase();
+        if (v === "publish" || v === "published" || v === "true" || v === "1") {
+          isPublished = true;
+        } else if (rawPublish === true || rawPublish === 1) {
+          isPublished = true;
+        } else if (v !== "draft" && v !== "false" && v !== "0" && /^\d{4}-\d{2}-\d{2}T/.test(v)) {
+          // Уже пришла ISO-дата публикации — считаем опубликованным
+          isPublished = true;
+        }
       }
       const publishedAt = isPublished ? new Date() : null;
+
+      if (DEBUG_CREATE_POST) {
+        console.log("[create-post] payload publish fields:", {
+          slug: payload.slug ?? "(empty)",
+          title: (payload.title ?? "").slice(0, 50),
+          publishedAt: payload.publishedAt,
+          published: payload.published,
+          status: payload.status,
+          isPublished: payload.isPublished,
+          rawPublish,
+          isPublished,
+          publishedAt: publishedAt ? publishedAt.toISOString() : null,
+        });
+      }
 
       const postCategoryId = payload.post_category ?? payload.postCategory ?? 21;
       const authorId = payload.author ?? 1;
@@ -270,14 +309,14 @@ app.post("/create-post", async (req, res) => {
               { data },
               { headers: { Authorization: apiToken } }
             );
-            results.push({ ...response.data, _updated: true });
+            results.push(normalizePostResult({ ...response.data, _updated: true }));
           } else {
             response = await axios.post(
               `${STRAPI_BASE_URL}/api/posts`,
               { data },
               { headers: { Authorization: apiToken } }
             );
-            results.push(response.data);
+            results.push(normalizePostResult(response.data));
           }
         } else {
           response = await axios.post(
@@ -285,7 +324,7 @@ app.post("/create-post", async (req, res) => {
             { data },
             { headers: { Authorization: apiToken } }
           );
-          results.push(response.data);
+          results.push(normalizePostResult(response.data));
         }
       } catch (err) {
         console.error("[create-post] Strapi error:", err?.message || err?.code);
@@ -305,12 +344,19 @@ app.post("/create-post", async (req, res) => {
         ? `${successCount} post(s) successfully added`
         : `${successCount} created, ${failCount} failed`;
 
-    res.status(failCount === items.length ? 500 : 200).json({
+    const payload = {
       data: results,
       errors: errors.length ? errors : undefined,
       status: successCount > 0,
       message,
-    });
+    };
+    // Для одного поста — дублируем id и link в корень ответа (ожидает клиент/тестовый скрипт)
+    if (results.length === 1 && (results[0].id != null || results[0].link != null)) {
+      payload.id = results[0].id;
+      payload.link = results[0].link;
+    }
+
+    res.status(failCount === items.length ? 500 : 200).json(payload);
   } catch (error) {
     res.status(error?.response?.status || 500).json({
       data: null,
