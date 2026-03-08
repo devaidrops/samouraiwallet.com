@@ -15,6 +15,7 @@ app.use(express.urlencoded({ limit: "65mb", extended: true }));
 app.use(cors());
 
 const STRAPI_BASE_URL = process.env.STRAPI_BASE_URL || "http://127.0.0.1:1337";
+const STRAPI_PUBLIC_URL = process.env.STRAPI_PUBLIC_URL || process.env.APP_BASE_URL || STRAPI_BASE_URL;
 const APP_BASE_URL = process.env.APP_BASE_URL || "http://127.0.0.1:3000";
 const SPEEDY_INDEX_API_KEY = process.env.SPEEDY_INDEX_API_KEY ?? "";
 
@@ -209,14 +210,16 @@ app.post("/create-post", async (req, res) => {
     const items = Array.isArray(req.body) ? req.body : [req.body];
     const results = [];
     const errors = [];
-    if (items.length > 1) {
-      console.log(`[create-post] Processing batch of ${items.length} items`);
-    }
 
     for (const payload of items) {
       if (!payload || typeof payload !== "object") {
         errors.push({ item: payload, message: "Invalid payload" });
         continue;
+      }
+
+      let rawContent = payload.post_content ?? payload.content ?? "";
+      if (typeof rawContent === "string" && STRAPI_BASE_URL !== STRAPI_PUBLIC_URL) {
+        rawContent = rawContent.split(STRAPI_BASE_URL).join(STRAPI_PUBLIC_URL);
       }
 
       const meta_title = payload.meta_title ?? payload.seo?.meta_title ?? "";
@@ -229,21 +232,28 @@ app.post("/create-post", async (req, res) => {
       }
       const publishedAt = isPublished ? new Date() : null;
 
-      const postCategoryId = payload.post_category ?? payload.postCategory;
-      const authorId = payload.author;
+      const postCategoryId = payload.post_category ?? payload.postCategory ?? 21;
+      const authorId = payload.author ?? 1;
+      const mediaId =
+        payload.media ??
+        payload.media_id ??
+        payload.mediaId ??
+        payload.logo ??
+        payload.featured_media;
       const data = {
         title: payload.title ?? "",
         slug: payload.slug ?? "",
         description: payload.description ?? "",
         meta: { title: meta_title, description: meta_description },
-        post_content: payload.post_content ?? payload.content ?? "",
+        post_content: rawContent,
         allow_thread: payload.allow_thread !== false,
         coinGeckoId: payload.coinGeckoId ?? "",
         ticker: payload.ticker ?? "",
         publishedAt,
       };
-      if (authorId != null && authorId !== "") data.author = authorId;
+      data.author = authorId != null && authorId !== "" ? authorId : 1;
       if (postCategoryId != null && postCategoryId !== "") data.post_category = postCategoryId;
+      if (mediaId != null && mediaId !== "") data.media = mediaId;
 
       const slug = data.slug;
       try {
@@ -278,6 +288,7 @@ app.post("/create-post", async (req, res) => {
           results.push(response.data);
         }
       } catch (err) {
+        console.error("[create-post] Strapi error:", err?.message || err?.code);
         errors.push({
           title: payload.title,
           slug: payload.slug,
@@ -509,9 +520,6 @@ app.get("/index-checker", async (req, res) => {
 // API to upload multi base64 images
 app.post("/upload-images", async (req, res) => {
   try {
-    console.log("📥 Received image upload request");
-
-    // Extract API token
     const apiToken = req.headers.authorization;
     if (!apiToken) {
       return res
@@ -526,7 +534,6 @@ app.post("/upload-images", async (req, res) => {
       !Array.isArray(image_bytes) ||
       image_bytes.length === 0
     ) {
-      console.log("⚠️ Invalid payload: No images provided");
       return res.status(400).json({
         message: "Invalid payload. Provide an array of Base64 images.",
       });
@@ -536,42 +543,26 @@ app.post("/upload-images", async (req, res) => {
 
     for (const base64Image of image_bytes) {
       try {
-        console.log("🔄 Processing an image...");
+        if (!base64Image.startsWith("data:image/")) continue;
 
-        if (!base64Image.startsWith("data:image/")) {
-          console.log("⚠️ Skipping non-image data");
-          continue;
-        }
-
-        // Extract image type (png, jpeg, etc.)
         const matches = base64Image.match(/^data:image\/(\w+);base64,/);
-        if (!matches || matches.length !== 2) {
-          console.log("⚠️ Skipping invalid Base64 image data");
-          continue;
-        }
+        if (!matches || matches.length !== 2) continue;
 
         const imageType = matches[1];
         const base64Data = base64Image.replace(/^data:image\/\w+;base64,/, "");
         const buffer = Buffer.from(base64Data, "base64");
 
-        // Check image size (Max: 50MB)
-        if (buffer.length > 50 * 1024 * 1024) {
-          console.log("⚠️ Skipping image >50MB");
-          continue;
-        }
+        if (buffer.length > 50 * 1024 * 1024) continue;
 
-        require("image-size")(buffer); // Ensure valid image
+        require("image-size")(buffer);
 
         const fileName = `uploaded_${Date.now()}_${Math.random()
           .toString(36)
           .substr(2, 5)}.${imageType}`;
         const filePath = path.join(__dirname, fileName);
 
-        // Save image temporarily
         fs.writeFileSync(filePath, buffer);
-        console.log(`✅ Image saved locally: ${filePath}`);
 
-        // Upload to Strapi
         const formData = new FormData();
         formData.append("files", fs.createReadStream(filePath));
 
@@ -587,21 +578,17 @@ app.post("/upload-images", async (req, res) => {
         );
 
         fs.unlinkSync(filePath);
-        console.log(`✅ Temporary file deleted: ${filePath}`);
 
         if (response.data && response.data.length > 0) {
+          const url = response.data[0].url;
+          const id = response.data[0].id;
           uploadedImages.push({
-            imageUrl: `${STRAPI_BASE_URL}${response.data[0].url}`,
-            fileId: response.data[0].id,
+            imageUrl: `${STRAPI_PUBLIC_URL}${url}`,
+            fileId: id,
           });
-          console.log(
-            `✅ Image uploaded successfully: ${response.data[0].url}`
-          );
-        } else {
-          console.log("⚠️ No response from Strapi. Skipping image.");
         }
       } catch (error) {
-        console.error(`❌ Failed to process image: ${error.message}`);
+        console.error("[upload-images] error:", error?.message || error?.code);
       }
     }
 
